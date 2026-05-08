@@ -8,6 +8,32 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- **Phase 2 — Profils utilisateur** :
+  - Migration `20260508180000_create_profiles.sql` : table `profiles`
+    (id FK auth.users, first_name, last_name, created_at, updated_at) avec
+    RLS strictes (select/update sur sa propre row uniquement, aucune policy
+    insert/delete — création automatique via trigger).
+  - Trigger `on_auth_user_created` qui crée une row profile à chaque
+    inscription dans `auth.users`. Fonction `handle_new_user` en
+    `security definer` pour pouvoir bypass RLS.
+  - Trigger `profiles_set_updated_at` pour MAJ automatique d'`updated_at`.
+  - Backfill : insertion d'une row profile pour les users déjà inscrits
+    avant la migration (`on conflict do nothing`).
+  - Helper `getCurrentProfile()` côté serveur (`src/lib/profile.ts`).
+  - Schéma Zod `profileSchema` (`src/lib/profile-schema.ts`) : trim,
+    chaînes vides → null, max 80 caractères.
+  - Server Action `updateProfile` (`src/lib/profile-actions.ts`) avec
+    `revalidatePath('/account')` après update.
+  - Composant `<ProfileForm>` (Client Component) sur le pattern Field,
+    avec feedback visuel "Modifications enregistrées" + icône CheckCircle2.
+  - Page `/account` réorganisée en 2 cards : "Identité" (formulaire) et
+    "Connexion" (email + ID lecture seule).
+  - 7 tests Vitest sur `profileSchema` (valide, trim, vides → null,
+    espaces → null, vide global, max 80, exactement 80). Total 23 tests
+    unit verts.
+
+### Added
+
 - Design system "Factura Core" (Financial Clarity / Minimalist Corporate) basé
   sur DESIGN.md :
   - Tokens M3 (`surface-container-*`, `primary`, `secondary`, `tertiary`,
