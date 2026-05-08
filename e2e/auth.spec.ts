@@ -6,6 +6,13 @@ test("/account non authentifié redirige vers /login avec ?next=/account", async
   await expect(page.getByRole("heading", { name: /connexion/i })).toBeVisible();
 });
 
+test("les routes du groupe (app) sont toutes protégées", async ({ page }) => {
+  for (const path of ["/clients", "/invoices", "/quotes"]) {
+    await page.goto(path);
+    await expect(page).toHaveURL(new RegExp(`/login\\?next=${encodeURIComponent(path)}$`));
+  }
+});
+
 test("la page /login affiche le formulaire magic link", async ({ page }) => {
   await page.goto("/login");
 

@@ -8,7 +8,7 @@ import type { Database } from "./types";
  * Toutes les autres routes sont publiques (landing, login, callback, error,
  * pages marketing à venir).
  */
-const PROTECTED_PREFIXES = ["/account", "/dashboard", "/invoices", "/clients"];
+const PROTECTED_PREFIXES = ["/account", "/dashboard", "/invoices", "/clients", "/quotes"];
 
 function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));

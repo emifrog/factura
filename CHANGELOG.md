@@ -8,6 +8,34 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Layout dashboard (groupe `(app)`) :
+  - Sidebar verticale fixe à gauche (md+) avec lien "Factura" et nav vers
+    Mon compte / Clients / Factures / Devis (icônes Lucide).
+  - Topbar en haut avec email utilisateur (sm+) et bouton "Se déconnecter".
+  - Drawer mobile (< md) avec overlay sombre, fermeture par clic extérieur
+    ou bouton X. État partagé via Context React (`DashboardSidebarProvider`)
+    entre la sidebar et le bouton trigger placé dans la topbar.
+  - Mise en surbrillance du lien actif via `pathname` (matching exact ou
+    prefix `/foo/`).
+  - Layout `(app)` consolide `requireUser()` au niveau du layout (defense
+    en profondeur + email pour la topbar) plutôt que dans chaque page.
+- Pages placeholder protégées :
+  - `/clients` (Phase 2) — carnet d'adresses B2B/B2C/international.
+  - `/invoices` (Phase 3) — éditeur Factur-X.
+  - `/quotes` (Phase 6) — devis et transformation en facture.
+- Composant `<ConstructionPlaceholder>` réutilisable pour ces 3 pages.
+- Test E2E : les routes `/clients`, `/invoices`, `/quotes` redirigent vers
+  `/login?next=...` quand non authentifié.
+
+### Changed
+
+- `/account` allégée : retrait du bouton logout dupliqué, déplacé dans la
+  topbar du layout dashboard.
+- Proxy : ajout de `/quotes` à `PROTECTED_PREFIXES`.
+- `.prettierignore` : exclusion de `DESIGN.md` (spec rédigée hors gabarit).
+
+### Added (suite)
+
 - Authentification par magic link Supabase :
   - Server Actions `signInWithMagicLink` et `signOut`
     (`src/lib/auth-actions.ts`).

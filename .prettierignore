@@ -10,4 +10,5 @@ test-results
 # Specs de cadrage projet — laissées telles quelles (contenu rédigé hors gabarit Prettier)
 CLAUDE_CODE_PROMPT.md
 PLAN_ACTION.md
+DESIGN.md
 
