@@ -8,6 +8,16 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Migration `20260508120000_create_waitlist.sql` : table `waitlist` (id uuid,
+  email citext unique, source, confirmed_at, created_at) avec RLS strictes
+  (insert public anon/authenticated autorisé, lecture interdite — réservée
+  à `service_role`). Extension `citext` activée pour l'unicité d'email
+  case-insensitive.
+- Types Supabase (`src/lib/supabase/types.ts`) tenus manuellement en attendant
+  un projet Supabase live (puis `supabase gen types typescript --linked`).
+  Branchés sur les clients (`createBrowserClient<Database>`, etc.).
+- Patron RLS documenté dans `supabase/README.md` : enable + force RLS,
+  policies explicites par opération, `revoke all` puis `grant` ciblé.
 - Client Supabase (browser + server) basé sur `@supabase/ssr`, validation Zod
   des variables d'environnement (`src/lib/env.ts`).
 - Proxy Next.js 16 (`src/proxy.ts`, convention Next 16 — anciennement
