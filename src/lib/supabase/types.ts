@@ -8,7 +8,13 @@
  *
  * En attendant, ce fichier reflète à la main le schéma défini dans
  * supabase/migrations/. À mettre à jour à chaque nouvelle migration.
+ *
+ * La structure imite celle de `supabase gen types` (clés Tables, Views,
+ * Functions, Enums, CompositeTypes) pour que les types se branchent
+ * correctement sur les overloads de @supabase/supabase-js.
  */
+
+export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
 export type Database = {
   public: {
@@ -35,10 +41,12 @@ export type Database = {
           confirmed_at?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
-    Enums: Record<string, never>;
+    Views: { [_: string]: never };
+    Functions: { [_: string]: never };
+    Enums: { [_: string]: never };
+    CompositeTypes: { [_: string]: never };
   };
 };

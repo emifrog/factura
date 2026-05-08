@@ -8,6 +8,17 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Capture email sur la landing : Server Action `addToWaitlist`
+  (`src/lib/waitlist.ts`) avec validation Zod (trim + lowercase + email),
+  composant Client `<WaitlistForm>` (`src/components/waitlist-form.tsx`)
+  branché sur la home page, gestion des états succès / déjà inscrit /
+  email invalide / erreur serveur. Pas de Resend ni rate-limit pour
+  l'instant (reportés à un prochain bloc), unicité garantie par la
+  contrainte UNIQUE au niveau Postgres.
+- Tests Vitest sur `waitlistSchema` (6 cas : valide, normalisation,
+  email vide, format invalide, source optionnelle, source trop long).
+- Test Playwright additionnel : présence du formulaire + non-soumission
+  d'un email invalide.
 - Migration `20260508120000_create_waitlist.sql` : table `waitlist` (id uuid,
   email citext unique, source, confirmed_at, created_at) avec RLS strictes
   (insert public anon/authenticated autorisé, lecture interdite — réservée

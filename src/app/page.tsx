@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { WaitlistForm } from "@/components/waitlist-form";
 
 export default function Home() {
   return (
@@ -15,13 +15,11 @@ export default function Home() {
           Le moins cher pour être conforme à la réforme française. Factur-X conforme EN 16931,
           archivage 10 ans, émission via PDP partenaire. À partir de 9 €/mois.
         </p>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Button size="lg" disabled>
-            Liste d&apos;attente (bientôt)
-          </Button>
-          <Button size="lg" variant="outline" disabled>
-            En savoir plus
-          </Button>
+        <div className="max-w-xl">
+          <WaitlistForm source="landing" />
+          <p className="text-muted-foreground mt-2 text-xs">
+            On vous prévient au lancement. Pas de spam, pas de partage de votre email.
+          </p>
         </div>
       </header>
 
