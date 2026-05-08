@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { waitlistSchema } from "./waitlist";
+import { waitlistSchema } from "./waitlist-schema";
 
 describe("waitlistSchema", () => {
   it("accepte un email valide", () => {

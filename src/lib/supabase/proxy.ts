@@ -4,18 +4,11 @@ import { getPublicEnv } from "@/lib/env";
 import type { Database } from "./types";
 
 /**
- * Routes du groupe (auth) : login, callback, etc. — accessibles sans session.
- * Les autres routes du groupe (app) exigent une session.
- *
- * On garde une liste explicite plutôt que de regarder la structure de dossier,
- * parce que le proxy ne voit que des URLs.
+ * Préfixes des routes protégées : exigent une session valide.
+ * Toutes les autres routes sont publiques (landing, login, callback, error,
+ * pages marketing à venir).
  */
-const PUBLIC_PATHS = ["/", "/login", "/auth/callback", "/auth/error"];
 const PROTECTED_PREFIXES = ["/account", "/dashboard", "/invoices", "/clients"];
-
-function isPublic(pathname: string): boolean {
-  return PUBLIC_PATHS.includes(pathname);
-}
 
 function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
@@ -70,10 +63,14 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
   }
 
   // Si l'utilisateur est connecté et tente d'aller sur /login, on le renvoie
-  // sur son espace.
+  // sur son espace (en respectant le ?next= s'il pointe vers une route
+  // relative et non protégée par sécurité supplémentaire).
   if (user && pathname === "/login") {
+    const rawNext = request.nextUrl.searchParams.get("next");
+    const safeNext =
+      rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/account";
     const url = request.nextUrl.clone();
-    url.pathname = "/account";
+    url.pathname = safeNext;
     url.search = "";
     return NextResponse.redirect(url);
   }
@@ -81,6 +78,5 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
   return response;
 }
 
-export const PROXY_PUBLIC_PATHS = PUBLIC_PATHS;
 export const PROXY_PROTECTED_PREFIXES = PROTECTED_PREFIXES;
-export { isPublic, isProtected };
+export { isProtected };

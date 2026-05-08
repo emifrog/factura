@@ -8,6 +8,35 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Authentification par magic link Supabase :
+  - Server Actions `signInWithMagicLink` et `signOut`
+    (`src/lib/auth-actions.ts`).
+  - Schéma Zod `loginSchema` séparé dans `src/lib/auth-schema.ts` avec
+    validation stricte du `next` (regex anti open-redirect : refuse
+    `//evil.com` et `/\evil.com`).
+  - Page `/login` avec formulaire `<LoginForm>` (Client Component),
+    récupération de `?next=...` depuis searchParams (async Next 16).
+  - Route Handler `/auth/callback` qui échange le code OAuth contre une
+    session via `exchangeCodeForSession` puis redirige vers `next` (ou
+    `/account`).
+  - Page `/auth/error` avec messages contextualisés (`missing_code`,
+    `exchange_failed`).
+  - Bouton "Se déconnecter" sur `/account` (formulaire + Server Action
+    `signOut` qui clear les cookies et redirige vers `/`).
+- Proxy : amélioration de la redirection des utilisateurs connectés
+  visitant `/login` (respect du `?next=` validé).
+- 6 tests unitaires Zod sur `loginSchema` (incluant 2 cas d'open redirect).
+- 3 tests E2E auth : redirection `/account` non auth → `/login?next=`,
+  affichage du formulaire login, page d'erreur paramétrée.
+
+### Changed
+
+- Refactor : extraction de `waitlistSchema` dans `src/lib/waitlist-schema.ts`
+  pour respecter la règle "fichier `use server` ne peut exporter que des
+  fonctions async". Tests renommés `xxx-schema.test.ts`.
+
+### Added (suite)
+
 - Capture email sur la landing : Server Action `addToWaitlist`
   (`src/lib/waitlist.ts`) avec validation Zod (trim + lowercase + email),
   composant Client `<WaitlistForm>` (`src/components/waitlist-form.tsx`)
