@@ -8,6 +8,18 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Client Supabase (browser + server) basé sur `@supabase/ssr`, validation Zod
+  des variables d'environnement (`src/lib/env.ts`).
+- Proxy Next.js 16 (`src/proxy.ts`, convention Next 16 — anciennement
+  `middleware.ts`) qui rafraîchit la session Supabase à chaque requête et
+  redirige vers `/login` les routes du groupe `(app)` non authentifiées.
+- Helpers Auth `getUser()` / `requireUser()` (`src/lib/auth.ts`).
+- Route groups : `src/app/(auth)/login` (placeholder) et `src/app/(app)/account`
+  (page protégée minimale qui lit l'utilisateur courant).
+- Layouts `force-dynamic` sur `(auth)` et `(app)` (pages dépendantes des
+  cookies, jamais prérendues statiquement).
+- Variables d'env placeholder dans le workflow CI pour permettre le build sans
+  projet Supabase actif.
 - Scaffolding initial du projet (Next.js 16, App Router, React 19 + Compiler, TypeScript strict).
 - Tailwind v4 + shadcn/ui (preset base-nova) avec composants Button, Input, Card.
 - Page d'accueil placeholder Factura (FR, design moderne, 3 propositions de valeur).

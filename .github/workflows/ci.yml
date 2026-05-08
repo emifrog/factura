@@ -40,6 +40,13 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Placeholders pour permettre la validation Zod au build sans
+          # projet Supabase actif. Les vraies clés ne sont nécessaires
+          # qu'au runtime (Vercel preview / prod).
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
 
   e2e:
     name: E2E (Playwright)
@@ -70,6 +77,10 @@ jobs:
 
       - name: Run Playwright
         run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
 
       - name: Upload Playwright report
         if: always()

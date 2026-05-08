@@ -28,6 +28,11 @@ npm run dev
 
 L'app tourne sur http://localhost:3000.
 
+> **Important** : `.env.local` est requis pour `npm run build` et `npm run dev`.
+> La validation Zod (`src/lib/env.ts`) lève une erreur explicite si
+> `NEXT_PUBLIC_SUPABASE_URL` ou `NEXT_PUBLIC_SUPABASE_ANON_KEY` manquent. En CI,
+> des valeurs placeholder sont injectées via le workflow GitHub Actions.
+
 ## Scripts
 
 | Script              | Description                     |
