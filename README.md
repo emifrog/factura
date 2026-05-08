@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Factura
 
-## Getting Started
+> SaaS de facturation électronique conforme à la réforme française 2026-2027.
+> Cible : freelances et auto-entrepreneurs solo. Positionnement : le moins cher pour être conforme.
 
-First, run the development server:
+## Stack
 
-```bash
+- **Next.js 16** (App Router, RSC, Server Actions, React Compiler)
+- **TypeScript strict** (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`)
+- **Tailwind v4** + **shadcn/ui** (preset base-nova)
+- **Supabase** (Postgres + RLS + Auth + Storage) — région Frankfurt (RGPD)
+- **Stripe Billing** — abonnements Pro / Pro+
+- **Vitest** + **Testing Library** (unit) — **Playwright** (E2E)
+- **Sentry** (monitoring) · **Vercel** (hosting) · **GitHub Actions** (CI)
+
+## Démarrage local
+
+Prérequis : Node 22+, npm 10+, git.
+
+```sh
+git clone <repo> factura
+cd factura
+npm install
+cp .env.example .env.local
+# Renseigner les clés Supabase / Stripe / etc.
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+L'app tourne sur http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script              | Description                     |
+| ------------------- | ------------------------------- |
+| `npm run dev`       | Serveur de développement        |
+| `npm run build`     | Build de production             |
+| `npm run start`     | Démarre le build de production  |
+| `npm run lint`      | ESLint                          |
+| `npm run typecheck` | `tsc --noEmit`                  |
+| `npm run format`    | Prettier (write)                |
+| `npm test`          | Tests unitaires Vitest          |
+| `npm run test:e2e`  | Tests E2E Playwright (Chromium) |
 
-## Learn More
+## Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/              # Routes Next.js (App Router)
+  components/ui/    # Composants shadcn/ui
+  lib/              # Utilitaires partagés
+e2e/                # Tests Playwright
+supabase/
+  config.toml       # Config CLI Supabase
+  migrations/       # Migrations SQL (RLS dans la même migration que la table)
+.github/workflows/  # CI GitHub Actions
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Règles non-négociables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Aucune table Supabase sans RLS** — les policies sont écrites dans la même migration que la table.
+2. **Aucune ligne de code sans test** — Vitest pour les unit, Playwright pour les flux critiques.
+3. **Server Components par défaut**, Server Actions pour les mutations, Zod côté serveur.
+4. **Pas de secret en dur** — tout passe par `.env.local`, documenté dans `.env.example`.
+5. **Hébergement UE** uniquement (RGPD) — Supabase Frankfurt, Vercel sur région UE.
 
-## Deploy on Vercel
+## Documentation projet
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [`PLAN_ACTION.md`](./PLAN_ACTION.md) — roadmap, contraintes réglementaires, phases.
+- [`CLAUDE_CODE_PROMPT.md`](./CLAUDE_CODE_PROMPT.md) — règles de collaboration avec l'assistant IA.
+- [`CHANGELOG.md`](./CHANGELOG.md) — historique des changements (Keep a Changelog).
+- [`supabase/README.md`](./supabase/README.md) — workflow base de données.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licence
+
+Propriétaire — tous droits réservés (à arbitrer en Phase 0 selon stratégie commerciale).
