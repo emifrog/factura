@@ -8,6 +8,46 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et le p
 
 ### Added
 
+- Design system "Factura Core" (Financial Clarity / Minimalist Corporate) basé
+  sur DESIGN.md :
+  - Tokens M3 (`surface-container-*`, `primary`, `secondary`, `tertiary`,
+    `error`, `success`, `on-*`) dans `src/app/globals.css` avec alias shadcn
+    pour rester compatibles avec `shadcn add`.
+  - Polices Manrope (titres) + Inter (corps + data) chargées via
+    `next/font/google`. Chiffres tabulaires (`tnum`) activés sur Inter pour
+    aligner les colonnes de montants.
+  - Shadows ambient bleutées (4-8% opacité) pour les cards et modales.
+  - Variante `success` (Emerald `#10b981`) sur Button pour les "positive
+    actions" (envoyer facture, accepter paiement).
+- Composant `<Field>` + `<FieldLabel>` + `<FieldHint>` + `<FieldError>` pour
+  appliquer le pattern "label TOUJOURS au-dessus du champ" imposé par
+  DESIGN.md.
+
+### Changed
+
+- Migration de toutes les pages et composants vers les nouveaux tokens M3
+  (landing, login, account, auth/error, sidebar, topbar, placeholders,
+  formulaires waitlist + login).
+- Boutons `Button` retravaillés (h-10 par défaut, palette deep blue
+  `#131b2e`, success emerald, focus ring tertiary).
+- `Input` retravaillé (h-10, bordure `outline-variant`, focus 1px tertiary
+  et 3px soft glow).
+- `Card` retravaillée (fond `surface-container-lowest` blanc pur, border
+  fine `outline-variant`, shadow ambient, padding interne intégré).
+- `LoginForm` migré sur le pattern Field (label visible au-dessus). État
+  "envoyé" présenté dans un `tertiary-container` avec icône Mail.
+- `WaitlistForm` état "succès / déjà inscrit" présenté dans un
+  `success-soft` avec icône CheckCircle2.
+
+### Removed
+
+- Tokens shadcn-cli génériques (`oklch(...)`) dans `globals.css` —
+  remplacés par les couleurs M3 explicites du DESIGN.md.
+- Mode sombre (variante `.dark`) — non spécifiée par DESIGN.md, à réintégrer
+  plus tard si besoin.
+
+### Added (suite)
+
 - Layout dashboard (groupe `(app)`) :
   - Sidebar verticale fixe à gauche (md+) avec lien "Factura" et nav vers
     Mon compte / Clients / Factures / Devis (icônes Lucide).

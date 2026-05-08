@@ -1,8 +1,10 @@
 "use client";
 
 import { useId, useState, useTransition } from "react";
+import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FieldError } from "@/components/ui/field";
 import { addToWaitlist } from "@/lib/waitlist";
 
 type FormState =
@@ -14,6 +16,7 @@ type FormState =
 
 export function WaitlistForm({ source }: { source?: string }) {
   const emailId = useId();
+  const errorId = `${emailId}-error`;
   const [state, setState] = useState<FormState>({ kind: "idle" });
   const [isPending, startTransition] = useTransition();
 
@@ -48,18 +51,22 @@ export function WaitlistForm({ source }: { source?: string }) {
 
   if (state.kind === "success" || state.kind === "already") {
     return (
-      <div className="bg-muted/40 text-foreground rounded-lg border px-4 py-3 text-sm">
-        <p className="font-medium">
-          {state.kind === "success" ? "Merci, vous êtes inscrit." : "Vous êtes déjà inscrit."}
-        </p>
-        <p className="text-muted-foreground mt-1">
-          On vous prévient dès que Factura ouvre les inscriptions.
-        </p>
+      <div className="bg-success-soft text-on-surface flex items-start gap-3 rounded-md px-4 py-3 text-sm">
+        <CheckCircle2 className="text-success mt-0.5 size-5 shrink-0" aria-hidden="true" />
+        <div>
+          <p className="font-medium">
+            {state.kind === "success" ? "Merci, vous êtes inscrit." : "Vous êtes déjà inscrit."}
+          </p>
+          <p className="text-on-surface-variant mt-0.5">
+            On vous prévient dès que Factura ouvre les inscriptions.
+          </p>
+        </div>
       </div>
     );
   }
 
   const submitting = isPending || state.kind === "submitting";
+  const invalid = state.kind === "error";
 
   return (
     <form action={onSubmit} className="flex flex-col gap-3 sm:flex-row sm:items-start">
@@ -74,14 +81,14 @@ export function WaitlistForm({ source }: { source?: string }) {
           required
           autoComplete="email"
           placeholder="vous@exemple.fr"
-          aria-invalid={state.kind === "error" ? true : undefined}
-          aria-describedby={state.kind === "error" ? `${emailId}-error` : undefined}
+          aria-invalid={invalid ? true : undefined}
+          aria-describedby={invalid ? errorId : undefined}
           disabled={submitting}
         />
-        {state.kind === "error" ? (
-          <p id={`${emailId}-error`} className="text-destructive mt-1 text-xs">
+        {invalid ? (
+          <FieldError id={errorId} className="mt-1.5">
             {state.message}
-          </p>
+          </FieldError>
         ) : null}
       </div>
       <Button type="submit" size="lg" disabled={submitting}>

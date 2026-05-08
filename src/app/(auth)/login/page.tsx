@@ -13,10 +13,10 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
       : undefined;
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-6 px-6 py-16">
+    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-8 px-6 py-16">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Connexion</h1>
-        <p className="text-muted-foreground text-sm">
+        <h1 className="font-heading text-3xl font-bold tracking-tight">Connexion</h1>
+        <p className="text-on-surface-variant text-sm leading-relaxed">
           Saisissez votre email pour recevoir un lien de connexion sécurisé. Pas de mot de passe à
           retenir.
         </p>

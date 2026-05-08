@@ -5,11 +5,11 @@ import { DashboardSidebarMobileTrigger } from "@/components/dashboard-sidebar";
 
 export function DashboardTopbar({ email }: { email: string }) {
   return (
-    <header className="bg-background flex h-14 shrink-0 items-center gap-3 border-b px-4 md:px-6">
+    <header className="bg-surface-container-lowest border-outline-variant flex h-16 shrink-0 items-center gap-3 border-b px-4 md:px-8">
       <DashboardSidebarMobileTrigger />
 
-      <div className="ml-auto flex items-center gap-3">
-        <span className="text-muted-foreground hidden text-sm sm:inline" title={email}>
+      <div className="ml-auto flex items-center gap-4">
+        <span className="text-on-surface-variant hidden text-sm sm:inline" title={email}>
           {email}
         </span>
         <form action={signOut}>

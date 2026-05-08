@@ -43,7 +43,7 @@ export function DashboardSidebarMobileTrigger() {
     <button
       type="button"
       onClick={() => setOpen(true)}
-      className="text-foreground hover:bg-muted inline-flex size-8 items-center justify-center rounded-lg md:hidden"
+      className="text-on-surface hover:bg-surface-container-low inline-flex size-9 items-center justify-center rounded-md transition-colors md:hidden"
       aria-label="Ouvrir le menu"
       aria-expanded={open}
       aria-controls="mobile-nav"
@@ -65,10 +65,10 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
             {...(onNavigate ? { onClick: onNavigate } : {})}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors",
+              "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
               active
-                ? "bg-muted text-foreground font-medium"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                ? "bg-primary-container text-on-primary-container font-medium"
+                : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface",
             )}
           >
             <Icon className="size-4" aria-hidden="true" />
@@ -87,9 +87,12 @@ export function DashboardSidebar() {
   return (
     <>
       {/* Sidebar fixe sur md+ */}
-      <aside className="bg-background hidden w-56 shrink-0 border-r md:flex md:flex-col">
-        <div className="flex h-14 items-center border-b px-4">
-          <Link href="/account" className="text-base font-semibold tracking-tight">
+      <aside className="bg-surface-container-lowest border-outline-variant hidden w-60 shrink-0 border-r md:flex md:flex-col">
+        <div className="border-outline-variant flex h-16 items-center border-b px-6">
+          <Link
+            href="/account"
+            className="font-heading text-on-surface text-lg font-bold tracking-tight"
+          >
             Factura
           </Link>
         </div>
@@ -109,17 +112,19 @@ export function DashboardSidebar() {
         >
           <button
             type="button"
-            className="absolute inset-0 bg-black/40"
+            className="bg-on-surface/40 absolute inset-0"
             aria-label="Fermer le menu"
             onClick={() => setOpen(false)}
           />
-          <div className="bg-background absolute top-0 left-0 flex h-full w-64 flex-col border-r shadow-xl">
-            <div className="flex h-14 items-center justify-between border-b px-4">
-              <span className="text-base font-semibold tracking-tight">Factura</span>
+          <div className="bg-surface-container-lowest border-outline-variant shadow-modal absolute top-0 left-0 flex h-full w-72 flex-col border-r">
+            <div className="border-outline-variant flex h-16 items-center justify-between border-b px-6">
+              <span className="font-heading text-on-surface text-lg font-bold tracking-tight">
+                Factura
+              </span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex size-8 items-center justify-center rounded-lg"
+                className="text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface inline-flex size-9 items-center justify-center rounded-md transition-colors"
                 aria-label="Fermer le menu"
               >
                 <X className="size-5" aria-hidden="true" />

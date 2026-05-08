@@ -3,13 +3,27 @@ import { Input as InputPrimitive } from "@base-ui/react/input";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Input — design system Factura Core.
+ *
+ * Pattern : label TOUJOURS au-dessus du champ (cf. DESIGN.md "Labels are
+ * always positioned above the field, never as placeholders"). Voir
+ * <Field> pour la composition label + input + erreur.
+ *
+ * Focus state : 1px primary (action blue) + 3px soft glow (ring-ring/30).
+ */
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <InputPrimitive
       type={type}
       data-slot="input"
       className={cn(
-        "border-input file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 disabled:bg-input/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-3 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 md:text-sm",
+        "border-outline-variant bg-surface-container-lowest text-on-surface flex h-10 w-full min-w-0 rounded-md border px-3 py-2 text-sm transition-colors",
+        "placeholder:text-on-surface-variant/70",
+        "focus-visible:border-tertiary focus-visible:ring-tertiary/20 focus-visible:ring-3 focus-visible:outline-none",
+        "aria-invalid:border-error aria-invalid:ring-error/20 aria-invalid:ring-3",
+        "disabled:bg-surface-container-low disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+        "file:inline-flex file:h-8 file:border-0 file:bg-transparent file:text-sm file:font-medium",
         className,
       )}
       {...props}

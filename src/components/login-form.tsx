@@ -1,8 +1,10 @@
 "use client";
 
 import { useId, useState, useTransition } from "react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { signInWithMagicLink } from "@/lib/auth-actions";
 
 type FormState =
@@ -13,6 +15,7 @@ type FormState =
 
 export function LoginForm({ next }: { next?: string }) {
   const emailId = useId();
+  const errorId = `${emailId}-error`;
   const [state, setState] = useState<FormState>({ kind: "idle" });
   const [isPending, startTransition] = useTransition();
 
@@ -41,24 +44,26 @@ export function LoginForm({ next }: { next?: string }) {
 
   if (state.kind === "sent") {
     return (
-      <div className="bg-muted/40 text-foreground rounded-lg border px-4 py-3 text-sm">
-        <p className="font-medium">Vérifiez votre boîte mail.</p>
-        <p className="text-muted-foreground mt-1">
-          Un lien de connexion vient d&apos;être envoyé. Il est valable 1 heure et utilisable une
-          seule fois.
-        </p>
+      <div className="bg-tertiary-container text-on-tertiary-container flex items-start gap-3 rounded-md px-4 py-3 text-sm">
+        <Mail className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+        <div>
+          <p className="font-medium">Vérifiez votre boîte mail.</p>
+          <p className="mt-0.5 opacity-80">
+            Un lien de connexion vient d&apos;être envoyé. Il est valable 1 heure et utilisable une
+            seule fois.
+          </p>
+        </div>
       </div>
     );
   }
 
   const submitting = isPending || state.kind === "submitting";
+  const invalid = state.kind === "error";
 
   return (
-    <form action={onSubmit} className="flex flex-col gap-3">
-      <div>
-        <label htmlFor={emailId} className="mb-1.5 block text-sm font-medium">
-          Adresse email
-        </label>
+    <form action={onSubmit} className="flex flex-col gap-4">
+      <Field>
+        <FieldLabel htmlFor={emailId}>Adresse email</FieldLabel>
         <Input
           id={emailId}
           name="email"
@@ -66,16 +71,12 @@ export function LoginForm({ next }: { next?: string }) {
           required
           autoComplete="email"
           placeholder="vous@exemple.fr"
-          aria-invalid={state.kind === "error" ? true : undefined}
-          aria-describedby={state.kind === "error" ? `${emailId}-error` : undefined}
+          aria-invalid={invalid ? true : undefined}
+          aria-describedby={invalid ? errorId : undefined}
           disabled={submitting}
         />
-        {state.kind === "error" ? (
-          <p id={`${emailId}-error`} className="text-destructive mt-1 text-xs">
-            {state.message}
-          </p>
-        ) : null}
-      </div>
+        {invalid ? <FieldError id={errorId}>{state.message}</FieldError> : null}
+      </Field>
       <Button type="submit" size="lg" disabled={submitting}>
         {submitting ? "Envoi en cours…" : "Recevoir un lien de connexion"}
       </Button>

@@ -3,27 +3,27 @@ import { WaitlistForm } from "@/components/waitlist-form";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 py-16 sm:py-24">
-      <header className="flex flex-col gap-4">
-        <span className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
+    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-8 py-16 sm:py-24">
+      <header className="flex flex-col gap-5">
+        <span className="text-on-surface-variant text-xs font-semibold tracking-wider uppercase">
           Réforme 2026 · Opérateur de Dématérialisation
         </span>
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="font-heading max-w-3xl text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl">
           Factura — facturation électronique pour freelances.
         </h1>
-        <p className="text-muted-foreground max-w-2xl text-lg">
+        <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
           Le moins cher pour être conforme à la réforme française. Factur-X conforme EN 16931,
           archivage 10 ans, émission via PDP partenaire. À partir de 9 €/mois.
         </p>
-        <div className="max-w-xl">
+        <div className="mt-2 max-w-xl">
           <WaitlistForm source="landing" />
-          <p className="text-muted-foreground mt-2 text-xs">
+          <p className="text-on-surface-variant mt-3 text-xs">
             On vous prévient au lancement. Pas de spam, pas de partage de votre email.
           </p>
         </div>
       </header>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle>Conforme dès 2026</CardTitle>
@@ -50,7 +50,7 @@ export default function Home() {
         </Card>
       </section>
 
-      <footer className="text-muted-foreground mt-auto text-sm">
+      <footer className="text-on-surface-variant mt-auto text-sm">
         En cours de construction · Aucune donnée collectée · Hébergement UE.
       </footer>
     </main>
