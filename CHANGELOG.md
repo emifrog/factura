@@ -28,3 +28,15 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
   page profil (édition du nom).
 - **Landing publique** : capture d'emails avec double opt-in via Resend
   (insertion `service_role`, email de confirmation, route de confirmation).
+- **Monitoring Sentry** : instrumentation client / serveur / edge, activée
+  uniquement si `NEXT_PUBLIC_SENTRY_DSN` est présent (inerte sinon).
+- **CI GitHub Actions** : lint + typecheck + tests unitaires + build sur chaque
+  push et PR.
+- **Tests unitaires (Vitest)** : schémas Zod (auth, waitlist, profil) et
+  composant `Button` — 14 tests.
+- **README** projet.
+
+### Reporté
+
+- Tests E2E Playwright (signup / login / logout / capture) — décision assumée,
+  à mettre en place ultérieurement. Les tests unitaires couvrent la validation.

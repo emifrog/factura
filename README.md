@@ -13,7 +13,7 @@ les **freelances solo**. 9 €/mois, sans usine à gaz comptable.
 - **Supabase** (Postgres + RLS, Auth magic link) — région UE
 - **Resend** — emails transactionnels
 - **Sentry** — monitoring
-- **Vitest** (unit) + **Playwright** (E2E)
+- **Vitest** (unit) — Playwright (E2E) prévu ultérieurement
 
 ## Démarrage
 
@@ -46,7 +46,6 @@ Migrations et procédure d'application : [`supabase/README.md`](./supabase/READM
 | `npm run typecheck` | Vérification TypeScript   |
 | `npm run format`    | Prettier (écriture)       |
 | `npm run test`      | Tests unitaires (Vitest)  |
-| `npm run test:e2e`  | Tests E2E (Playwright)    |
 
 ## Conventions
 
