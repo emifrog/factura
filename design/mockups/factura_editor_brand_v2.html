@@ -1,0 +1,195 @@
+<h2 class="sr-only">Éditeur de facture Factura selon le design system Financial Clarity.</h2>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+.fc-num { font-feature-settings: 'tnum' 1; font-variant-numeric: tabular-nums; }
+</style>
+
+<div style="background: #f7f9fb; padding: 24px; border-radius: 16px; font-family: Inter, -apple-system, sans-serif; margin: 1rem 0;">
+  <div style="background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9; box-shadow: 0 4px 6px -1px rgba(15,23,42,0.05); overflow: hidden;">
+
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px 32px; border-bottom: 1px solid #f1f5f9;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button style="background: transparent; border: none; color: #45464d; cursor: pointer; padding: 6px; border-radius: 8px; display: flex; align-items: center;">
+          <i class="ti ti-arrow-left" style="font-size: 20px;" aria-hidden="true"></i>
+        </button>
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 4px;">
+            <h1 style="margin: 0; font-family: Manrope; font-size: 20px; font-weight: 600; color: #191c1e; letter-spacing: -0.01em;">Nouvelle facture</h1>
+            <span style="font-size: 11px; color: #76777d; font-family: Inter; font-weight: 500; letter-spacing: 0.02em; background: #f7f9fb; padding: 4px 10px; border-radius: 9999px;">F-2026-043</span>
+          </div>
+          <div style="font-size: 12px; color: #45464d; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 6px; height: 6px; border-radius: 9999px; background: #76777d;"></span> Brouillon · enregistré il y a 12 s
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button style="background: #ffffff; color: #131b2e; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <i class="ti ti-eye" style="font-size: 16px;" aria-hidden="true"></i> Aperçu PDF
+        </button>
+        <button style="background: #006c49; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <i class="ti ti-send" style="font-size: 16px;" aria-hidden="true"></i> Émettre via PDP
+        </button>
+      </div>
+    </header>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 300px;">
+
+      <div style="padding: 32px 40px; min-width: 0; border-right: 1px solid #f1f5f9;">
+
+        <div style="margin-bottom: 32px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Client</label>
+          <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+            <div style="width: 44px; height: 44px; border-radius: 9999px; background: #131b2e; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 14px; font-weight: 600; font-family: Manrope;">AS</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 16px; font-weight: 600; color: #191c1e; margin-bottom: 4px;">Acme Studio SAS</div>
+              <div style="font-size: 13px; color: #45464d;" class="fc-num">SIREN 812 345 678 · 4 rue de Rivoli, 75001 Paris</div>
+            </div>
+            <span style="font-size: 12px; color: #006c49; background: rgba(0,108,73,0.1); padding: 4px 12px; border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;"><i class="ti ti-circle-check-filled" style="font-size: 14px;" aria-hidden="true"></i> SIREN validé</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px;">
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Date d'émission</label>
+            <div style="padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; color: #191c1e; background: #ffffff;" class="fc-num">8 mai 2026</div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Échéance</label>
+            <div style="padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; color: #191c1e; background: #ffffff;" class="fc-num">7 juin 2026</div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Conditions</label>
+            <div style="padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; color: #191c1e; background: #ffffff;">30 jours</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 32px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Catégorie d'opération · <span style="color: #131b2e;">requise par la réforme</span></label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div style="padding: 14px 16px; border: 1px solid #131b2e; background: #ffffff; border-radius: 8px; cursor: pointer; box-shadow: 0 0 0 3px rgba(19,27,46,0.08);">
+              <div style="font-size: 14px; font-weight: 600; color: #131b2e; margin-bottom: 2px;">Prestations</div>
+              <div style="font-size: 12px; color: #45464d;">de services</div>
+            </div>
+            <div style="padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer;">
+              <div style="font-size: 14px; font-weight: 500; color: #45464d; margin-bottom: 2px;">Livraisons</div>
+              <div style="font-size: 12px; color: #76777d;">de biens</div>
+            </div>
+            <div style="padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer;">
+              <div style="font-size: 14px; font-weight: 500; color: #45464d; margin-bottom: 2px;">Mixte</div>
+              <div style="font-size: 12px; color: #76777d;">biens + services</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 32px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <label style="font-size: 12px; font-weight: 600; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em;">Lignes de facturation</label>
+            <button style="background: #ffffff; color: #131b2e; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <i class="ti ti-plus" style="font-size: 14px;" aria-hidden="true"></i> Ajouter une ligne
+            </button>
+          </div>
+
+          <div style="border: 1px solid #f1f5f9; border-radius: 12px; overflow: hidden;">
+
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 70px 100px 110px; gap: 16px; padding: 12px 20px; background: #f7f9fb; font-size: 12px; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">
+              <div>Description</div>
+              <div style="text-align: right;">Qté</div>
+              <div style="text-align: right;">PU HT</div>
+              <div style="text-align: right;">Total</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 70px 100px 110px; gap: 16px; padding: 16px 20px; align-items: center; font-size: 14px; border-top: 1px solid #f1f5f9;">
+              <div>
+                <div style="font-weight: 600; color: #191c1e;">Développement Next.js</div>
+                <div style="font-size: 12px; color: #45464d; margin-top: 2px;">Sprint avril–mai 2026</div>
+              </div>
+              <div style="text-align: right; color: #45464d;" class="fc-num">12</div>
+              <div style="text-align: right; color: #45464d;" class="fc-num">500 €</div>
+              <div style="text-align: right; font-family: Manrope; font-weight: 700; color: #191c1e;" class="fc-num">6 000 €</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 70px 100px 110px; gap: 16px; padding: 16px 20px; align-items: center; font-size: 14px; border-top: 1px solid #f1f5f9; background: #fafbfc;">
+              <div>
+                <div style="font-weight: 600; color: #191c1e;">Maintenance corrective</div>
+                <div style="font-size: 12px; color: #45464d; margin-top: 2px;">Forfait avril 2026</div>
+              </div>
+              <div style="text-align: right; color: #45464d;" class="fc-num">1</div>
+              <div style="text-align: right; color: #45464d;" class="fc-num">450 €</div>
+              <div style="text-align: right; font-family: Manrope; font-weight: 700; color: #191c1e;" class="fc-num">450 €</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <div style="width: 320px;">
+            <div style="display: flex; justify-content: space-between; font-size: 14px; color: #45464d; padding: 8px 0;">
+              <span>Total HT</span>
+              <span class="fc-num">6 450 €</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; color: #76777d; padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+              <span>TVA non applicable, art. 293 B</span>
+              <span>—</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 16px 0 0;">
+              <span style="font-family: Manrope; font-size: 18px; font-weight: 600; color: #191c1e; letter-spacing: -0.01em;">Total TTC</span>
+              <span style="font-family: Manrope; font-size: 24px; font-weight: 700; color: #191c1e; letter-spacing: -0.02em;" class="fc-num">6 450,00 €</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside style="background: #f7f9fb; padding: 32px 24px;">
+
+        <div style="margin-bottom: 32px;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <i class="ti ti-shield-check" style="font-size: 20px; color: #006c49;" aria-hidden="true"></i>
+            <h3 style="margin: 0; font-family: Manrope; font-size: 16px; font-weight: 600; color: #191c1e; letter-spacing: -0.01em;">Conformité 2026</h3>
+            <span style="margin-left: auto; font-size: 12px; color: #006c49; background: rgba(0,108,73,0.1); padding: 4px 10px; border-radius: 9999px; font-weight: 600;" class="fc-num">4 / 4</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 8px;">
+              <i class="ti ti-check" style="font-size: 16px; color: #006c49;" aria-hidden="true"></i>
+              <span style="font-size: 13px; color: #191c1e; flex: 1; font-weight: 500;">SIREN client</span>
+              <span style="font-size: 11px; color: #76777d;">INSEE</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 8px;">
+              <i class="ti ti-check" style="font-size: 16px; color: #006c49;" aria-hidden="true"></i>
+              <span style="font-size: 13px; color: #191c1e; flex: 1; font-weight: 500;">Mentions obligatoires</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 8px;">
+              <i class="ti ti-check" style="font-size: 16px; color: #006c49;" aria-hidden="true"></i>
+              <span style="font-size: 13px; color: #191c1e; flex: 1; font-weight: 500;">Catégorie d'opération</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 8px;">
+              <i class="ti ti-check" style="font-size: 16px; color: #006c49;" aria-hidden="true"></i>
+              <span style="font-size: 13px; color: #191c1e; flex: 1; font-weight: 500;">Format Factur-X prêt</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding: 16px 18px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <i class="ti ti-route" style="font-size: 16px; color: #45464d;" aria-hidden="true"></i>
+            <span style="font-size: 12px; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Acheminement</span>
+          </div>
+          <div style="font-size: 13px; color: #45464d; line-height: 1.6;">
+            Émission via votre PDP partenaire vers le PPF, puis livraison automatique au destinataire.
+          </div>
+        </div>
+
+        <div style="padding: 16px 18px; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <i class="ti ti-bell" style="font-size: 16px; color: #45464d;" aria-hidden="true"></i>
+            <span style="font-size: 12px; color: #45464d; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Relance auto</span>
+          </div>
+          <div style="font-size: 13px; color: #45464d; line-height: 1.6;">
+            J + 7, J + 15, J + 30 si non payée. Modifiable par client.
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>

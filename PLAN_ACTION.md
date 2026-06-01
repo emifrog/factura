@@ -176,17 +176,17 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 **Objectif** : projet déployable, premier utilisateur peut s'inscrire, landing page de capture d'emails en ligne.
 
 - [ ] Setup repo Git + branches `main` / `develop`
-- [ ] Setup Next.js 16 + TypeScript strict + ESLint + Prettier
-- [ ] Setup Supabase (projet UE, migrations versionnées, templates RLS)
+- [x] Setup Next.js 16 + TypeScript strict + ESLint + Prettier
+- [x] Setup Supabase (projet UE, migrations versionnées, templates RLS)
 - [ ] Setup Vercel (preview deployments par PR)
 - [ ] Setup Sentry
 - [ ] Setup CI GitHub Actions (lint + tests + build sur chaque PR)
-- [ ] Auth Supabase (email + magic link), pages signup/login/logout
-- [ ] Page profil minimal (nom, email)
-- [ ] Layout dashboard (navbar, sidebar)
-- [ ] **Landing page publique de capture d'emails** ("Préparez-vous à la réforme, soyez prévenu du lancement")
+- [x] Auth Supabase (email + magic link), pages signup/login/logout
+- [x] Page profil minimal (nom, email)
+- [x] Layout dashboard (navbar, sidebar)
+- [x] **Landing page publique de capture d'emails** ("Préparez-vous à la réforme, soyez prévenu du lancement")
 - [ ] Tests E2E : signup, login, logout, capture email
-- [ ] CHANGELOG.md initialisé
+- [x] CHANGELOG.md initialisé
 - [ ] README.md projet
 
 **Critère de sortie** : tests verts à 100%, app déployée Vercel preview, magic link OK en prod, landing capture fonctionnelle.

@@ -1,0 +1,11 @@
+.next
+node_modules
+coverage
+package-lock.json
+*.html
+
+# Docs source rédigés à la main — ne pas reformater
+PLAN_ACTION.md
+DESIGN.md
+CLAUDE_CODE_PROMPT.md
+CHANGELOG.md

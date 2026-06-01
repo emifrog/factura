@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/*
+  Design system "Financial Clarity" — voir DESIGN.md.
+  Source de vérité visuelle : design/mockups/*.html (v2).
+  Tokens sémantiques exposés en utilitaires Tailwind v4 (bg-*, text-*, border-*).
+*/
+@theme {
+  /* Typographie */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Surfaces */
+  --color-canvas: #f7f9fb; /* fond de page */
+  --color-surface: #ffffff; /* cartes / conteneurs */
+  --color-surface-subtle: #f2f4f6; /* zones secondaires (aside éditeur) */
+  --color-border: #f1f5f9; /* séparateurs / bordures de cartes */
+  --color-border-strong: #e2e8f0; /* bordures de champs */
+
+  /* Texte */
+  --color-ink: #191c1e; /* on-surface */
+  --color-ink-muted: #45464d; /* on-surface-variant */
+  --color-ink-subtle: #76777d; /* outline / méta */
+
+  /* Marque (bleu nuit) — nav, titres, boutons primaires */
+  --color-brand: #131b2e;
+  --color-brand-foreground: #ffffff;
+
+  /* Succès / actions positives (émeraude) — payé, émettre, conformité */
+  --color-success: #006c49;
+  --color-success-foreground: #ffffff;
+
+  /* Action (bleu) — liens, états "en attente", éléments interactifs */
+  --color-action: #3980f4;
+
+  /* Erreur / retard */
+  --color-danger: #ba1a1a;
+  --color-danger-strong: #93000a;
+  --color-danger-surface: #ffdad6;
+
+  /* Rayons (échelle DESIGN.md) */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Élévation ambiante (ombres diffuses teintées) */
+  --shadow-card: 0 4px 6px -1px rgb(15 23 42 / 0.05);
+  --shadow-card-hover: 0 10px 15px -3px rgb(15 23 42 / 0.08);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Chiffres tabulaires alignés (montants, SIREN, séquences de factures) */
+.tnum {
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+}
