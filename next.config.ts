@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+  // Inclut les assets Factur-X (police + profil ICC) dans le bundle serverless
+  // pour toute route qui importe le service de génération.
+  outputFileTracingIncludes: {
+    "/**": ["src/lib/invoices/assets/**"],
+  },
+};
 
 // On n'active le plugin Sentry (upload de source maps au build) que si l'org et
 // le projet sont configurés — évite tout bruit de build en dev / sans config.

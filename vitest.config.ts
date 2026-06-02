@@ -14,6 +14,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      // Neutralise `import "server-only"` dans les tests.
+      "server-only": fileURLToPath(
+        new URL("./src/test/server-only-shim.ts", import.meta.url),
+      ),
     },
   },
 });

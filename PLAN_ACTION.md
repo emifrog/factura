@@ -214,22 +214,18 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 
 **Phase critique : c'est le cœur du produit.**
 
-- [ ] **Spike technique** : valider la lib de génération Factur-X (PDF/A-3 + XML CII embarqué). Options à évaluer :
-  - `pdf-lib` + `xmlbuilder2` (pure JS, à valider en conformité)
-  - Microservice Java avec Mustangproject (référence open source)
-  - Microservice Python avec `factur-x-py`
-  - Service tiers (à évaluer coût)
-- [ ] Modèle `invoices` : numéro auto, date, statut (draft/sent/paid/overdue/cancelled), totaux HT/TVA/TTC
-- [ ] Modèle `invoice_lines` : description, quantité, prix unitaire, taux TVA, total
-- [ ] Numérotation conforme : séquence Postgres dédiée par utilisateur, sans rupture, format `FACT-{année}-{séquence}`
+- [x] **Spike technique** : lib retenue `@stackforge-eu/factur-x` (JS pur/WASM, serverless). Conformité PDF/A-3b + EN16931 **prouvée par Mustangproject/veraPDF**. `pdf-lib`+`xmlbuilder2` et microservices écartés.
+- [x] Modèle `invoices` : numéro auto, date, statut (draft/issued/sent/paid/overdue/cancelled), totaux HT/TVA/TTC
+- [x] Modèle `invoice_lines` : description, quantité, prix unitaire, taux TVA, total
+- [x] Numérotation conforme : compteur Postgres dédié par utilisateur (fonction atomique), sans rupture, format `FACT-{année}-{séquence}`
 - [ ] Éditeur de factures (UI) avec preview live
-- [ ] Génération PDF Factur-X conforme EN 16931
+- [x] Génération PDF Factur-X conforme EN 16931
 - [ ] Validation systématique des mentions obligatoires 2026 (catégorie, SIREN, adresse livraison, TVA débits)
 - [ ] Stockage PDF dans Supabase Storage avec hash SHA-256 d'intégrité
 - [ ] Téléchargement PDF + XML séparé
 - [ ] Tests unit (génération XML), tests E2E (création facture)
 - [ ] **Validation par un comptable** d'un échantillon de 10 factures générées
-- [ ] **Validation conformité Factur-X** via Mustangproject validator (open source, référence)
+- [x] **Validation conformité Factur-X** via Mustangproject validator (prototype validé ; gate CI à câbler)
 
 **Critère de sortie** : 10 factures Factur-X générées validées par outil officiel + 1 comptable réel.
 

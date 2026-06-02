@@ -7,6 +7,17 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Ajouté — Phase 3 (factures Factur-X, en cours)
+
+- **Spike technique validé** : génération Factur-X EN 16931 / PDF/A-3b en JS pur
+  (serverless) via `@stackforge-eu/factur-x` (WASM), **conformité prouvée par le
+  validateur officiel Mustangproject/veraPDF** (PDF/A-3b + XML EN 16931 valides).
+- **Modèle de données** : `invoices`, `invoice_lines`, `invoice_sequences`
+  (numérotation gapless par utilisateur/année via fonction atomique), RLS strictes,
+  bucket d'archivage immuable. Snapshots vendeur/client à l'émission.
+- **Service de génération** `generateFacturX` : rendu PDF (police embarquée Noto)
+  + profil ICC sRGB → PDF/A-3b + XML CII EN 16931, testé en continu.
+
 ### Ajouté — Phase 2 (entreprise & clients)
 
 - **Modèle `companies`** (1 par utilisateur) : raison sociale, SIREN, forme

@@ -34,9 +34,9 @@ describe("companySchema", () => {
   });
 
   it("coerce la case TVA sur les débits", () => {
-    expect(companySchema.parse({ ...base, vatOnDebits: "on" }).vatOnDebits).toBe(
-      true,
-    );
+    expect(
+      companySchema.parse({ ...base, vatOnDebits: "on" }).vatOnDebits,
+    ).toBe(true);
     expect(companySchema.parse({ ...base }).vatOnDebits).toBe(false);
   });
 
