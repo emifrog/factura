@@ -197,14 +197,14 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 
 **Objectif** : utilisateur peut configurer son entreprise et son carnet de clients.
 
-- [ ] Modèle `companies` : SIREN, raison sociale, adresse, TVA intracom, IBAN, logo, type (EI / micro / EURL / SASU), régime TVA (franchise / réel simplifié / réel normal)
-- [ ] Vérification SIREN via API INSEE (gratuit, public) + auto-remplissage adresse
-- [ ] Upload logo (Supabase Storage, redimensionnement, validation taille/type)
-- [ ] Modèle `clients` : B2B (SIREN obligatoire) ou B2C (nom seul) ou international
-- [ ] CRUD clients avec recherche
-- [ ] Vérification SIREN pour clients B2B
-- [ ] Tests unit + E2E
-- [ ] Update CHANGELOG
+- [x] Modèle `companies` : SIREN, raison sociale, adresse, TVA intracom, IBAN, logo, type (EI / micro / EURL / SASU), régime TVA (franchise / réel simplifié / réel normal)
+- [x] Vérification SIREN via API publique (recherche-entreprises.api.gouv.fr, sans clé) + auto-remplissage adresse
+- [x] Upload logo (Supabase Storage, redimensionnement sharp, validation taille/type)
+- [x] Modèle `clients` : B2B (SIREN obligatoire) ou B2C (nom seul) ou international
+- [x] CRUD clients avec recherche
+- [x] Vérification SIREN pour clients B2B
+- [x] Tests unit _(E2E reportés avec la Phase 1)_
+- [x] Update CHANGELOG
 
 **Critère de sortie** : utilisateur peut configurer son entreprise et ajouter 5 clients sans bug.
 

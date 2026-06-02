@@ -7,6 +7,21 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Ajouté — Phase 2 (entreprise & clients)
+
+- **Modèle `companies`** (1 par utilisateur) : raison sociale, SIREN, forme
+  juridique, régime de TVA, n° TVA intracom, option TVA sur les débits, adresse,
+  IBAN, logo — RLS stricte. **Modèle `clients`** (B2B/B2C/international) avec
+  contrainte SIREN obligatoire pour les B2B.
+- **Vérification SIREN** via l'API publique recherche-entreprises.api.gouv.fr
+  (sans clé) : auto-remplissage raison sociale + adresse, calcul du n° de TVA.
+- **Page Entreprise** (`/company`) : formulaire complet + vérification SIREN.
+- **Upload logo** : validation type/taille + redimensionnement sharp (512px,
+  WebP), bucket Storage privé avec policies par dossier utilisateur.
+- **Carnet de clients** (`/clients`) : liste avec recherche par nom, création,
+  édition et suppression ; vérification SIREN pour les clients professionnels.
+- Tests unitaires des schémas (companies, clients) et du service SIREN.
+
 ### Ajouté
 
 - **Bootstrap projet** : Next.js 16 (App Router, RSC, Turbopack), TypeScript

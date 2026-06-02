@@ -38,14 +38,14 @@ Migrations et procédure d'application : [`supabase/README.md`](./supabase/READM
 
 ## Scripts
 
-| Commande            | Rôle                      |
-| ------------------- | ------------------------- |
-| `npm run dev`       | Serveur de développement  |
-| `npm run build`     | Build de production       |
-| `npm run lint`      | ESLint                    |
-| `npm run typecheck` | Vérification TypeScript   |
-| `npm run format`    | Prettier (écriture)       |
-| `npm run test`      | Tests unitaires (Vitest)  |
+| Commande            | Rôle                     |
+| ------------------- | ------------------------ |
+| `npm run dev`       | Serveur de développement |
+| `npm run build`     | Build de production      |
+| `npm run lint`      | ESLint                   |
+| `npm run typecheck` | Vérification TypeScript  |
+| `npm run format`    | Prettier (écriture)      |
+| `npm run test`      | Tests unitaires (Vitest) |
 
 ## Conventions
 

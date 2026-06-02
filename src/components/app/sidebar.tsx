@@ -8,6 +8,7 @@ import {
   IconFileText,
   IconInbox,
   IconUsers,
+  IconUser,
   IconBuilding,
   IconCreditCard,
   type IconProps,
@@ -29,11 +30,12 @@ const ESPACE: NavItem[] = [
   { href: "/invoices", label: "Factures", icon: IconFileInvoice, soon: true },
   { href: "/quotes", label: "Devis", icon: IconFileText, soon: true },
   { href: "/inbox", label: "Réception", icon: IconInbox, soon: true },
-  { href: "/clients", label: "Clients", icon: IconUsers, soon: true },
+  { href: "/clients", label: "Clients", icon: IconUsers },
 ];
 
 const COMPTE: NavItem[] = [
-  { href: "/account", label: "Entreprise", icon: IconBuilding },
+  { href: "/account", label: "Mon profil", icon: IconUser },
+  { href: "/company", label: "Entreprise", icon: IconBuilding },
   { href: "/billing", label: "Abonnement", icon: IconCreditCard, soon: true },
 ];
 

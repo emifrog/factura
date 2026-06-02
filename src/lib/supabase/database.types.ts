@@ -3,6 +3,10 @@
  * Écrits à la main pour l'instant ; à terme, régénérer via :
  *   supabase gen types typescript --project-id <ref> > src/lib/supabase/database.types.ts
  */
+export type CompanyLegalForm = "EI" | "micro" | "EURL" | "SASU";
+export type CompanyVatRegime = "franchise" | "reel_simplifie" | "reel_normal";
+export type ClientKind = "b2b" | "b2c" | "international";
+
 export type Database = {
   public: {
     Tables: {
@@ -41,6 +45,103 @@ export type Database = {
         Update: {
           confirmed_at?: string | null;
         };
+        Relationships: [];
+      };
+      companies: {
+        Row: {
+          id: string;
+          profile_id: string;
+          legal_name: string;
+          siren: string | null;
+          legal_form: CompanyLegalForm;
+          vat_regime: CompanyVatRegime;
+          vat_number: string | null;
+          vat_on_debits: boolean;
+          address_line1: string | null;
+          address_line2: string | null;
+          postal_code: string | null;
+          city: string | null;
+          country: string;
+          iban: string | null;
+          logo_path: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          profile_id: string;
+          legal_name: string;
+          siren?: string | null;
+          legal_form: CompanyLegalForm;
+          vat_regime: CompanyVatRegime;
+          vat_number?: string | null;
+          vat_on_debits?: boolean;
+          address_line1?: string | null;
+          address_line2?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          country?: string;
+          iban?: string | null;
+          logo_path?: string | null;
+        };
+        Update: Partial<{
+          legal_name: string;
+          siren: string | null;
+          legal_form: CompanyLegalForm;
+          vat_regime: CompanyVatRegime;
+          vat_number: string | null;
+          vat_on_debits: boolean;
+          address_line1: string | null;
+          address_line2: string | null;
+          postal_code: string | null;
+          city: string | null;
+          country: string;
+          iban: string | null;
+          logo_path: string | null;
+        }>;
+        Relationships: [];
+      };
+      clients: {
+        Row: {
+          id: string;
+          profile_id: string;
+          kind: ClientKind;
+          name: string;
+          siren: string | null;
+          vat_number: string | null;
+          email: string | null;
+          address_line1: string | null;
+          address_line2: string | null;
+          postal_code: string | null;
+          city: string | null;
+          country: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          profile_id: string;
+          kind: ClientKind;
+          name: string;
+          siren?: string | null;
+          vat_number?: string | null;
+          email?: string | null;
+          address_line1?: string | null;
+          address_line2?: string | null;
+          postal_code?: string | null;
+          city?: string | null;
+          country?: string;
+        };
+        Update: Partial<{
+          kind: ClientKind;
+          name: string;
+          siren: string | null;
+          vat_number: string | null;
+          email: string | null;
+          address_line1: string | null;
+          address_line2: string | null;
+          postal_code: string | null;
+          city: string | null;
+          country: string;
+        }>;
         Relationships: [];
       };
     };
