@@ -17,6 +17,13 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
   bucket d'archivage immuable. Snapshots vendeur/client à l'émission.
 - **Service de génération** `generateFacturX` : rendu PDF (police embarquée Noto)
   + profil ICC sRGB → PDF/A-3b + XML CII EN 16931, testé en continu.
+- **Éditeur de factures** (`/invoices`) : brouillon avec gestion des lignes,
+  totaux HT/TVA/TTC en direct (BR-CO-17), catégorie d'opération, échéance.
+- **Émission** : numérotation gapless `FACT-{année}-{n}`, snapshot vendeur/client,
+  génération Factur-X, archivage immuable + **empreinte SHA-256**, téléchargement
+  PDF/XML via URL signée.
+- **Gate de conformité CI** : Mustangproject/veraPDF valide automatiquement un
+  Factur-X généré à chaque push/PR (échec si non conforme).
 
 ### Ajouté — Phase 2 (entreprise & clients)
 

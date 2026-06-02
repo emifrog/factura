@@ -2,7 +2,13 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /** Préfixes de routes nécessitant une session authentifiée. */
-const PROTECTED_PREFIXES = ["/dashboard", "/account", "/company", "/clients"];
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  "/account",
+  "/company",
+  "/clients",
+  "/invoices",
+];
 
 /**
  * Rafraîchit la session Supabase à chaque requête et protège les routes privées.

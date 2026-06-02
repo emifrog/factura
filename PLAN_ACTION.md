@@ -218,14 +218,14 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 - [x] Modèle `invoices` : numéro auto, date, statut (draft/issued/sent/paid/overdue/cancelled), totaux HT/TVA/TTC
 - [x] Modèle `invoice_lines` : description, quantité, prix unitaire, taux TVA, total
 - [x] Numérotation conforme : compteur Postgres dédié par utilisateur (fonction atomique), sans rupture, format `FACT-{année}-{séquence}`
-- [ ] Éditeur de factures (UI) avec preview live
+- [x] Éditeur de factures (UI) avec totaux live (brouillon → émission)
 - [x] Génération PDF Factur-X conforme EN 16931
-- [ ] Validation systématique des mentions obligatoires 2026 (catégorie, SIREN, adresse livraison, TVA débits)
-- [ ] Stockage PDF dans Supabase Storage avec hash SHA-256 d'intégrité
-- [ ] Téléchargement PDF + XML séparé
-- [ ] Tests unit (génération XML), tests E2E (création facture)
-- [ ] **Validation par un comptable** d'un échantillon de 10 factures générées
-- [x] **Validation conformité Factur-X** via Mustangproject validator (prototype validé ; gate CI à câbler)
+- [~] Validation des mentions obligatoires 2026 (catégorie ✓, SIREN B2B ✓, TVA débits ✓ ; complétude FR des notes/adresses à affiner)
+- [x] Stockage PDF dans Supabase Storage avec hash SHA-256 d'intégrité
+- [x] Téléchargement PDF + XML séparé
+- [x] Tests unit (totaux, génération) ; _E2E création facture reportés avec les autres E2E_
+- [ ] **Validation par un comptable** d'un échantillon de 10 factures générées _(externe)_
+- [x] **Validation conformité Factur-X** via Mustangproject validator — **gate CI actif**
 
 **Critère de sortie** : 10 factures Factur-X générées validées par outil officiel + 1 comptable réel.
 

@@ -21,6 +21,12 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Java requis pour le validateur de conformité Factur-X (Mustangproject).
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
       - name: Install dependencies
         run: npm ci
 
@@ -30,8 +36,26 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Les tests génèrent un échantillon Factur-X dans .artifacts/.
       - name: Unit tests
         run: npm run test
+
+      - name: Conformité Factur-X (Mustangproject / veraPDF)
+        run: |
+          curl -fsSL -o Mustang-CLI.jar \
+            https://repo1.maven.org/maven2/org/mustangproject/Mustang-CLI/2.23.1/Mustang-CLI-2.23.1.jar
+          java -jar Mustang-CLI.jar --action validate \
+            --source .artifacts/sample-invoice.pdf --disable-file-logging \
+            > mustang-report.xml 2>&1 || true
+          cat mustang-report.xml
+          if grep -q 'status="invalid"' mustang-report.xml; then
+            echo "::error::Factur-X non conforme (validation Mustang échouée)"
+            exit 1
+          fi
+          grep -q 'isCompliant=true' mustang-report.xml || {
+            echo "::error::PDF/A-3 non conforme"; exit 1;
+          }
+          echo "Factur-X conforme (PDF/A-3b + EN 16931)."
 
       - name: Build
         run: npm run build

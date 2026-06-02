@@ -61,12 +61,20 @@ export type FacturXData = {
 };
 
 // Assets embarqués (tracés pour le serverless via next.config outputFileTracingIncludes).
-const FONT_BYTES = readFileSync(
-  fileURLToPath(new URL("./assets/NotoSans-Regular.ttf", import.meta.url)),
-);
-const ICC_BYTES = readFileSync(
-  fileURLToPath(new URL("./assets/sRGB-v2-micro.icc", import.meta.url)),
-);
+// Chargés paresseusement : éviter une lecture fs à l'évaluation du module
+// (sinon échec à la collecte de build Next).
+let fontBytesCache: Buffer | null = null;
+let iccBytesCache: Buffer | null = null;
+
+function loadAssets() {
+  fontBytesCache ??= readFileSync(
+    fileURLToPath(new URL("./assets/NotoSans-Regular.ttf", import.meta.url)),
+  );
+  iccBytesCache ??= readFileSync(
+    fileURLToPath(new URL("./assets/sRGB-v2-micro.icc", import.meta.url)),
+  );
+  return { font: fontBytesCache, icc: iccBytesCache };
+}
 
 const INK = rgb(0.098, 0.11, 0.118);
 const MUTED = rgb(0.27, 0.275, 0.302);
@@ -79,7 +87,7 @@ function money(n: number, currency: string) {
 async function renderBasePdf(data: FacturXData): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   doc.registerFontkit(fontkit);
-  const font = await doc.embedFont(FONT_BYTES, { subset: true });
+  const font = await doc.embedFont(loadAssets().font, { subset: true });
   const page = doc.addPage([595.28, 841.89]); // A4
   const { width } = page.getSize();
   let y = 800;
@@ -200,7 +208,7 @@ export async function generateFacturX(
 
   const result = await embedFacturX({
     pdf: basePdf,
-    rgbIccProfile: ICC_BYTES,
+    rgbIccProfile: loadAssets().icc,
     profile: Profile.EN16931,
     flavor: Flavor.FACTUR_X,
     // validateBeforeEmbed (défaut) vérifie déjà les règles de profil ;
