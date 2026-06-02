@@ -303,13 +303,13 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 
 ### Phase 9 — Export, archivage, RGPD (semaine 16)
 
-- [ ] Export comptable CSV (lignes de factures pour comptable annuel)
-- [ ] Export FEC simplifié (TPE qui en ont besoin)
-- [ ] Export RGPD complet (toutes les données utilisateur en JSON + ZIP des PDFs)
-- [ ] Suppression de compte (soft delete + suppression définitive après 30j)
-- [ ] Politique conservation 10 ans documentée
-- [ ] Page mentions légales + politique confidentialité (validées avocat)
-- [ ] Tests
+- [x] Export comptable CSV (factures émises par année, pour comptable annuel)
+- [ ] Export FEC simplifié — **différé** (format légal strict, à faire proprement à la demande)
+- [x] Export RGPD complet (toutes les données en JSON + ZIP des PDFs, via fflate)
+- [x] Suppression de compte (soft-delete + déconnexion ; purge définitive 30j via job ultérieur)
+- [x] Politique conservation 10 ans documentée (page confidentialité)
+- [~] Pages mentions légales + confidentialité (brouillon en ligne, **à faire valider par avocat**)
+- [x] Tests (génération CSV)
 
 ---
 

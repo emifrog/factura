@@ -17,6 +17,14 @@ export default async function AppLayout({
   // proxy.ts protège déjà ces routes ; double sécurité côté layout.
   if (!user) redirect("/login");
 
+  // Compte en cours de suppression : on bloque l'accès.
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("deleted_at")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (profile?.deleted_at) redirect("/compte-supprime");
+
   return (
     <div className="flex flex-1">
       <Sidebar />

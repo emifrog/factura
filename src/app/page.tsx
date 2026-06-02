@@ -97,8 +97,18 @@ export default async function Home({
         </section>
       </main>
 
-      <footer className="border-t border-border px-6 py-8 text-center text-sm text-ink-subtle sm:px-10">
-        © 2026 Factura · Facturation électronique conforme pour freelances
+      <footer className="flex flex-col items-center gap-2 border-t border-border px-6 py-8 text-center text-sm text-ink-subtle sm:px-10">
+        <div>
+          © 2026 Factura · Facturation électronique conforme pour freelances
+        </div>
+        <div className="flex gap-4">
+          <Link href="/mentions-legales" className="hover:text-ink-muted">
+            Mentions légales
+          </Link>
+          <Link href="/confidentialite" className="hover:text-ink-muted">
+            Confidentialité
+          </Link>
+        </div>
       </footer>
     </>
   );

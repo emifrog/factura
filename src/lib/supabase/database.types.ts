@@ -24,6 +24,7 @@ export type Database = {
           id: string;
           email: string;
           full_name: string | null;
+          deleted_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -35,6 +36,7 @@ export type Database = {
         Update: {
           email?: string;
           full_name?: string | null;
+          deleted_at?: string | null;
         };
         Relationships: [];
       };

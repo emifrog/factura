@@ -7,6 +7,16 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Ajouté — Phase 9 (export & RGPD)
+
+- **Export comptable CSV** des factures émises par année (pour le comptable annuel).
+- **Export RGPD complet** : ZIP (`fflate`) des données en JSON + PDFs archivés.
+- **Suppression de compte** : soft-delete (`deleted_at`) + déconnexion + blocage
+  d'accès ; politique de purge 30 j / rétention factures 10 ans documentée.
+- **Pages légales** : mentions légales + politique de confidentialité (brouillon
+  à faire valider par un avocat).
+- Tests de génération CSV.
+
 ### Ajouté — Phase 7 (paiements & relances)
 
 - **Marquer une facture payée** (manuel) ; statut dynamique (payée / en retard).
