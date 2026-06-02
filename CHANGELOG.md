@@ -7,7 +7,18 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
-### Ajouté — Phase 3 (factures Factur-X, en cours)
+### Ajouté — Phase 6 (devis)
+
+- **Modèle `quotes`** + `quote_lines` + numérotation `DEVIS-{année}-{n}`
+  (compteur atomique dédié), RLS owner.
+- **Éditeur de devis** (`/devis`) : lignes + totaux live, échéance de validité,
+  finalisation (numéro + statut envoyé), PDF simple à la demande.
+- **Lien public d'acceptation** `/d/{token}` (sans authentification, service-role) :
+  le client consulte le devis, télécharge le PDF et **accepte/refuse avec
+  e-signature simple** (nom + consentement + horodatage).
+- **Transformation devis accepté → brouillon de facture** en un clic.
+
+### Ajouté — Phase 3 (factures Factur-X)
 
 - **Spike technique validé** : génération Factur-X EN 16931 / PDF/A-3b en JS pur
   (serverless) via `@stackforge-eu/factur-x` (WASM), **conformité prouvée par le

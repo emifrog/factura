@@ -270,11 +270,11 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 
 ### Phase 6 — Devis et transformation en factures (semaine 13)
 
-- [ ] Modèle `quotes` : statut accepté/refusé/expiré
-- [ ] CRUD devis + génération PDF (Factur-X non obligatoire pour devis)
-- [ ] Acceptation client par lien public sécurisé (signature électronique simple)
-- [ ] Transformation devis accepté → facture en 1 clic
-- [ ] Tests
+- [x] Modèle `quotes` (statuts draft/sent/accepted/refused/expired) + `quote_lines` + numérotation `DEVIS-{année}-{n}`
+- [x] CRUD devis + génération PDF (PDF simple, Factur-X non requis)
+- [x] Acceptation client par lien public sécurisé `/d/{token}` (e-signature simple : nom + consentement + horodatage)
+- [x] Transformation devis accepté → brouillon de facture en 1 clic
+- [x] Tests (schémas devis)
 
 ---
 

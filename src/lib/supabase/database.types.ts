@@ -14,6 +14,7 @@ export type InvoiceStatus =
   | "overdue"
   | "cancelled";
 export type InvoiceCategory = "goods" | "services" | "mixed";
+export type QuoteStatus = "draft" | "sent" | "accepted" | "refused" | "expired";
 
 export type Database = {
   public: {
@@ -268,10 +269,111 @@ export type Database = {
         Update: Partial<{ last_value: number }>;
         Relationships: [];
       };
+      quotes: {
+        Row: {
+          id: string;
+          profile_id: string;
+          client_id: string | null;
+          number: string | null;
+          status: QuoteStatus;
+          category: InvoiceCategory;
+          issue_date: string | null;
+          valid_until: string | null;
+          currency: string;
+          line_total: number;
+          tax_total: number;
+          grand_total: number;
+          public_token: string;
+          accepted_at: string | null;
+          accepted_by: string | null;
+          pdf_path: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          profile_id: string;
+          client_id?: string | null;
+          number?: string | null;
+          status?: QuoteStatus;
+          category?: InvoiceCategory;
+          issue_date?: string | null;
+          valid_until?: string | null;
+          currency?: string;
+          line_total?: number;
+          tax_total?: number;
+          grand_total?: number;
+          accepted_at?: string | null;
+          accepted_by?: string | null;
+          pdf_path?: string | null;
+        };
+        Update: Partial<{
+          client_id: string | null;
+          number: string | null;
+          status: QuoteStatus;
+          category: InvoiceCategory;
+          issue_date: string | null;
+          valid_until: string | null;
+          currency: string;
+          line_total: number;
+          tax_total: number;
+          grand_total: number;
+          accepted_at: string | null;
+          accepted_by: string | null;
+          pdf_path: string | null;
+        }>;
+        Relationships: [];
+      };
+      quote_lines: {
+        Row: {
+          id: string;
+          quote_id: string;
+          line_no: number;
+          description: string;
+          quantity: number;
+          unit_code: string;
+          unit_price: number;
+          vat_rate: number;
+          vat_category: string;
+          line_total: number;
+          created_at: string;
+        };
+        Insert: {
+          quote_id: string;
+          line_no: number;
+          description: string;
+          quantity?: number;
+          unit_code?: string;
+          unit_price?: number;
+          vat_rate?: number;
+          vat_category?: string;
+          line_total?: number;
+        };
+        Update: Partial<{
+          line_no: number;
+          description: string;
+          quantity: number;
+          unit_code: string;
+          unit_price: number;
+          vat_rate: number;
+          vat_category: string;
+          line_total: number;
+        }>;
+        Relationships: [];
+      };
+      quote_sequences: {
+        Row: { profile_id: string; year: number; last_value: number };
+        Insert: { profile_id: string; year: number; last_value?: number };
+        Update: Partial<{ last_value: number }>;
+        Relationships: [];
+      };
     };
     Views: { [_ in never]: never };
     Functions: {
       next_invoice_number: {
+        Args: { p_year: number };
+        Returns: number;
+      };
+      next_quote_number: {
         Args: { p_year: number };
         Returns: number;
       };

@@ -8,6 +8,7 @@ const PROTECTED_PREFIXES = [
   "/company",
   "/clients",
   "/invoices",
+  "/devis",
 ];
 
 /**

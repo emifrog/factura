@@ -28,7 +28,7 @@ type NavItem = {
 const ESPACE: NavItem[] = [
   { href: "/dashboard", label: "Vue d'ensemble", icon: IconLayoutGrid },
   { href: "/invoices", label: "Factures", icon: IconFileInvoice },
-  { href: "/quotes", label: "Devis", icon: IconFileText, soon: true },
+  { href: "/devis", label: "Devis", icon: IconFileText },
   { href: "/inbox", label: "Réception", icon: IconInbox, soon: true },
   { href: "/clients", label: "Clients", icon: IconUsers },
 ];
