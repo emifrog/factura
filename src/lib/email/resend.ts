@@ -41,3 +41,49 @@ export async function sendWaitlistConfirmation(to: string, confirmUrl: string) {
     html: confirmationHtml(confirmUrl),
   });
 }
+
+export type ReminderEmailParams = {
+  invoiceNumber: string;
+  amount: string;
+  dueDate: string;
+  stage: number;
+  sellerName: string;
+  signature?: string | null;
+};
+
+function reminderHtml(p: ReminderEmailParams) {
+  const signature = p.signature
+    ? `<p style="font-size:14px;color:#45464d;white-space:pre-line;margin-top:24px;">${p.signature}</p>`
+    : `<p style="font-size:14px;color:#45464d;margin-top:24px;">${p.sellerName}</p>`;
+  return `
+  <div style="font-family: -apple-system, Segoe UI, sans-serif; color: #191c1e; max-width: 480px; margin: 0 auto;">
+    <h1 style="font-size: 20px; color: #131b2e;">Rappel de paiement</h1>
+    <p style="font-size: 15px; line-height: 1.6; color: #45464d;">
+      Sauf erreur de notre part, la facture <strong>${p.invoiceNumber}</strong>
+      d'un montant de <strong>${p.amount}</strong>, échue le ${p.dueDate},
+      n'a pas encore été réglée.
+    </p>
+    <p style="font-size: 15px; line-height: 1.6; color: #45464d;">
+      Nous vous remercions de bien vouloir procéder à son règlement.
+    </p>
+    ${signature}
+  </div>`;
+}
+
+/** Envoie une relance de paiement pour une facture. */
+export async function sendInvoiceReminder(
+  to: string,
+  params: ReminderEmailParams,
+) {
+  if (!isEmailConfigured()) {
+    throw new Error("RESEND_API_KEY / RESEND_FROM_EMAIL non configurés.");
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY!);
+  return resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL!,
+    to,
+    subject: `Relance — facture ${params.invoiceNumber}`,
+    html: reminderHtml(params),
+  });
+}

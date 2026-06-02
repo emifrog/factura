@@ -32,6 +32,8 @@ export async function saveCompany(
     postalCode: formData.get("postalCode") ?? undefined,
     city: formData.get("city") ?? undefined,
     iban: formData.get("iban") ?? "",
+    reminderEnabled: formData.get("reminderEnabled"),
+    reminderSignature: formData.get("reminderSignature") ?? undefined,
   });
 
   if (!parsed.success) {
@@ -66,6 +68,8 @@ export async function saveCompany(
       postal_code: c.postalCode,
       city: c.city,
       iban: c.iban,
+      reminder_enabled: c.reminderEnabled,
+      reminder_signature: c.reminderSignature,
     },
     { onConflict: "profile_id" },
   );

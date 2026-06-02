@@ -1,13 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { IconArrowLeft, IconShieldCheck, IconLock } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconShieldCheck,
+  IconLock,
+  IconCheck,
+} from "@tabler/icons-react";
 import { createClient } from "@/lib/supabase/server";
+import { markInvoicePaid } from "@/lib/invoices/actions";
+import type { InvoiceStatus } from "@/lib/supabase/database.types";
 import { Card, CardBody } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { InvoiceDownloads } from "@/components/app/invoice-downloads";
 
 export const metadata: Metadata = { title: "Facture" };
+
+const STATUS: Record<
+  InvoiceStatus,
+  { label: string; tone: "neutral" | "action" | "success" | "danger" }
+> = {
+  draft: { label: "Brouillon", tone: "neutral" },
+  issued: { label: "Émise", tone: "action" },
+  sent: { label: "Envoyée", tone: "action" },
+  paid: { label: "Payée", tone: "success" },
+  overdue: { label: "En retard", tone: "danger" },
+  cancelled: { label: "Annulée", tone: "neutral" },
+};
 
 function fmt(n: number, currency: string) {
   return `${Number(n).toFixed(2)} ${currency}`;
@@ -51,7 +71,9 @@ export default async function InvoiceViewPage({
           <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">
             {invoice.number}
           </h1>
-          <Badge tone="action">Émise</Badge>
+          <Badge tone={STATUS[invoice.status].tone}>
+            {STATUS[invoice.status].label}
+          </Badge>
         </div>
       </header>
 
@@ -103,7 +125,25 @@ export default async function InvoiceViewPage({
             </div>
           </div>
 
-          <InvoiceDownloads id={invoice.id} />
+          <div className="flex flex-wrap items-center gap-3">
+            <InvoiceDownloads id={invoice.id} />
+            {(invoice.status === "issued" ||
+              invoice.status === "sent" ||
+              invoice.status === "overdue") && (
+              <form action={markInvoicePaid}>
+                <input type="hidden" name="id" value={invoice.id} />
+                <Button type="submit" variant="success" size="sm">
+                  <IconCheck size={16} aria-hidden /> Marquer payée
+                </Button>
+              </form>
+            )}
+          </div>
+
+          {invoice.paid_at && (
+            <p className="text-sm text-success">
+              Payée le {invoice.paid_at.slice(0, 10)}.
+            </p>
+          )}
 
           {invoice.sha256 && (
             <div className="flex items-start gap-2 border-t border-border pt-4 text-xs text-ink-subtle">

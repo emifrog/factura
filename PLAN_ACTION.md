@@ -280,12 +280,12 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 
 ### Phase 7 — Paiements et relances (semaine 14)
 
-- [ ] Marquer une facture payée (manuel + auto si Stripe Payment Link)
-- [ ] Détection automatique factures en retard (cron Vercel)
-- [ ] Relances automatiques par email (J+7, J+15, J+30) configurables
-- [ ] Templates personnalisables (ton, signature, délai de grâce)
-- [ ] **Différentiateur fort** : intégration Stripe Payment Link pour permettre au client de payer la facture en ligne par carte
-- [ ] Tests
+- [x] Marquer une facture payée (manuel ; auto Stripe Payment Link différé → compte Stripe)
+- [x] Détection automatique factures en retard (cron Vercel `/api/cron/reminders`, sécurisé CRON_SECRET)
+- [x] Relances automatiques par email (J+7, J+15, J+30) via Resend, activables par entreprise
+- [~] Templates de relance : signature + activation configurables (ton/délai de grâce avancés à venir)
+- [ ] **Différentiateur fort** : Stripe Payment Link — différé (Phase 8 / compte Stripe)
+- [x] Tests (planning des relances, pur)
 
 ---
 

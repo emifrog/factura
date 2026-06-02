@@ -48,6 +48,11 @@ export const companySchema = z.object({
     .transform((v) => v.replace(/\s/g, "").toUpperCase())
     .refine((v) => v === "" || /^[A-Z0-9]{14,34}$/.test(v), "IBAN invalide.")
     .transform((v) => (v ? v : null)),
+  reminderEnabled: z
+    .union([z.literal("on"), z.literal("true")])
+    .nullish()
+    .transform((v) => v === "on" || v === "true"),
+  reminderSignature: optionalText(500),
 });
 
 export type CompanyInput = z.infer<typeof companySchema>;

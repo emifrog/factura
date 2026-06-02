@@ -41,6 +41,8 @@ export type CompanyDefaults = {
   postalCode: string;
   city: string;
   iban: string;
+  reminderEnabled: boolean;
+  reminderSignature: string;
 };
 
 const initialState: CompanySaveState = { status: "idle" };
@@ -222,6 +224,39 @@ export function CompanyForm({ defaults }: { defaults: CompanyDefaults }) {
         onChange={(e) => set("iban", e.target.value)}
         error={fieldError("iban")}
       />
+
+      <fieldset className="flex flex-col gap-4 border-t border-border pt-6">
+        <legend className="text-xs font-semibold tracking-[0.05em] text-ink-muted uppercase">
+          Relances de paiement
+        </legend>
+        <label className="flex items-center gap-3 text-sm text-ink">
+          <input
+            type="checkbox"
+            name="reminderEnabled"
+            checked={fields.reminderEnabled}
+            onChange={(e) => set("reminderEnabled", e.target.checked)}
+            className="size-4 rounded border-border-strong text-success"
+          />
+          Envoyer des relances automatiques (J+7, J+15, J+30)
+        </label>
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor="reminderSignature"
+            className="text-xs font-semibold tracking-[0.05em] text-ink-muted uppercase"
+          >
+            Signature des relances
+          </label>
+          <textarea
+            id="reminderSignature"
+            name="reminderSignature"
+            rows={3}
+            value={fields.reminderSignature}
+            onChange={(e) => set("reminderSignature", e.target.value)}
+            placeholder="Cordialement,&#10;Votre nom"
+            className="rounded-md border border-border-strong bg-surface px-4 py-2.5 text-sm text-ink outline-none focus-visible:border-action focus-visible:ring-3 focus-visible:ring-action/20"
+          />
+        </div>
+      </fieldset>
 
       <div className="flex items-center gap-3 border-t border-border pt-6">
         <Button type="submit" disabled={isSaving}>

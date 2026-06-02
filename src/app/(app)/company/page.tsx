@@ -41,6 +41,8 @@ export default async function CompanyPage() {
     postalCode: company?.postal_code ?? "",
     city: company?.city ?? "",
     iban: company?.iban ?? "",
+    reminderEnabled: company?.reminder_enabled ?? true,
+    reminderSignature: company?.reminder_signature ?? "",
   };
 
   return (

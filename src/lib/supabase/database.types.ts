@@ -73,6 +73,8 @@ export type Database = {
           country: string;
           iban: string | null;
           logo_path: string | null;
+          reminder_enabled: boolean;
+          reminder_signature: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -91,6 +93,8 @@ export type Database = {
           country?: string;
           iban?: string | null;
           logo_path?: string | null;
+          reminder_enabled?: boolean;
+          reminder_signature?: string | null;
         };
         Update: Partial<{
           legal_name: string;
@@ -106,6 +110,8 @@ export type Database = {
           country: string;
           iban: string | null;
           logo_path: string | null;
+          reminder_enabled: boolean;
+          reminder_signature: string | null;
         }>;
         Relationships: [];
       };
@@ -174,6 +180,7 @@ export type Database = {
           xml_path: string | null;
           sha256: string | null;
           issued_at: string | null;
+          paid_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -196,6 +203,7 @@ export type Database = {
           xml_path?: string | null;
           sha256?: string | null;
           issued_at?: string | null;
+          paid_at?: string | null;
         };
         Update: Partial<{
           client_id: string | null;
@@ -215,7 +223,23 @@ export type Database = {
           xml_path: string | null;
           sha256: string | null;
           issued_at: string | null;
+          paid_at: string | null;
         }>;
+        Relationships: [];
+      };
+      invoice_reminders: {
+        Row: {
+          id: string;
+          invoice_id: string;
+          stage: number;
+          sent_at: string;
+        };
+        Insert: {
+          invoice_id: string;
+          stage: number;
+          sent_at?: string;
+        };
+        Update: Partial<{ stage: number; sent_at: string }>;
         Relationships: [];
       };
       invoice_lines: {

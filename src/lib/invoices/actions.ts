@@ -351,3 +351,25 @@ export async function getInvoiceDownloadUrl(
     .createSignedUrl(path, 120);
   return data?.signedUrl ?? null;
 }
+
+/** Marque une facture comme payée (manuel). */
+export async function markInvoicePaid(formData: FormData) {
+  const id = formData.get("id");
+  if (typeof id !== "string" || !id) return;
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase
+    .from("invoices")
+    .update({ status: "paid", paid_at: new Date().toISOString() })
+    .eq("id", id)
+    .eq("profile_id", user.id)
+    .in("status", ["issued", "sent", "overdue"]);
+
+  revalidatePath(`/invoices/${id}`);
+  revalidatePath("/invoices");
+}

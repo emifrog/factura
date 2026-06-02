@@ -7,6 +7,16 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Ajouté — Phase 7 (paiements & relances)
+
+- **Marquer une facture payée** (manuel) ; statut dynamique (payée / en retard).
+- **Détection automatique des retards** : cron Vercel quotidien
+  `/api/cron/reminders` (sécurisé par `CRON_SECRET`) qui passe les factures
+  échues en `overdue`.
+- **Relances email automatiques** J+7 / J+15 / J+30 via Resend, journalisées
+  (`invoice_reminders`, anti-doublon), activables et signables par entreprise.
+- Planning des relances en logique pure et testée.
+
 ### Ajouté — Phase 6 (devis)
 
 - **Modèle `quotes`** + `quote_lines` + numérotation `DEVIS-{année}-{n}`
