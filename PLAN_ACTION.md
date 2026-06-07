@@ -457,11 +457,14 @@ Articles prioritaires longue traîne, faible concurrence, intention claire :
 ## 10. Conventions du projet
 
 - **Commits** : Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `test:`)
-- **Branches** : `main` (prod), `develop` (preview), `feat/xxx`, `fix/xxx`
-- **PRs** : description + checklist (tests OK, types OK, RLS vérifiées, CHANGELOG MAJ)
+- **Branches** : trunk-based — `main` est l'unique branche longue (= prod). Solo
+  et pré-lancement : on commite sur `main`. Pour un changement risqué (surtout le
+  générateur Factur-X), branche courte `feat/xxx` + PR pour faire valider la CI
+  **avant** le merge. _Réintroduire les PR systématiques au lancement (sept. 2026),
+  quand un bug en prod touchera de vrais clients._ (`develop` abandonnée le 2026-06-07.)
 - **Issues** : labels par phase + priorité (P0/P1/P2)
-- **Code review** : auto-review systématique avant merge (lecture après pause)
-- **Tests** : aucune feature mergée sans test unit minimum, flux critiques avec E2E
+- **Code review** : auto-review systématique avant push (lecture après pause)
+- **Tests** : aucune feature poussée sans test unit minimum, flux critiques avec E2E
 
 ---
 
