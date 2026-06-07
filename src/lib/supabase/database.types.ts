@@ -183,6 +183,11 @@ export type Database = {
           sha256: string | null;
           issued_at: string | null;
           paid_at: string | null;
+          delivery_address_line1: string | null;
+          delivery_address_line2: string | null;
+          delivery_postal_code: string | null;
+          delivery_city: string | null;
+          delivery_country: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -206,6 +211,11 @@ export type Database = {
           sha256?: string | null;
           issued_at?: string | null;
           paid_at?: string | null;
+          delivery_address_line1?: string | null;
+          delivery_address_line2?: string | null;
+          delivery_postal_code?: string | null;
+          delivery_city?: string | null;
+          delivery_country?: string | null;
         };
         Update: Partial<{
           client_id: string | null;
@@ -226,7 +236,32 @@ export type Database = {
           sha256: string | null;
           issued_at: string | null;
           paid_at: string | null;
+          delivery_address_line1: string | null;
+          delivery_address_line2: string | null;
+          delivery_postal_code: string | null;
+          delivery_city: string | null;
+          delivery_country: string | null;
         }>;
+        Relationships: [];
+      };
+      audit_logs: {
+        Row: {
+          id: string;
+          profile_id: string;
+          entity_type: string;
+          entity_id: string | null;
+          action: string;
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          profile_id: string;
+          entity_type: string;
+          entity_id?: string | null;
+          action: string;
+          metadata?: Json | null;
+        };
+        Update: Partial<{ metadata: Json | null }>;
         Relationships: [];
       };
       invoice_reminders: {

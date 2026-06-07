@@ -220,7 +220,7 @@ L'utilisateur doit désigner sa PDP dans l'annuaire PPF. Factura propose un parc
 - [x] Numérotation conforme : compteur Postgres dédié par utilisateur (fonction atomique), sans rupture, format `FACT-{année}-{séquence}`
 - [x] Éditeur de factures (UI) avec totaux live (brouillon → émission)
 - [x] Génération PDF Factur-X conforme EN 16931
-- [~] Validation des mentions obligatoires 2026 (catégorie ✓, SIREN B2B ✓, TVA débits ✓ ; complétude FR des notes/adresses à affiner)
+- [x] Validation des mentions obligatoires 2026 : catégorie, SIREN B2B (BT-30), TVA débits, adresse de livraison (BG-13), mentions légales PMT/PMD/AAB, adresses électroniques — **propagées au Factur-X, Schematron FR BR-FR satisfait**
 - [x] Stockage PDF dans Supabase Storage avec hash SHA-256 d'intégrité
 - [x] Téléchargement PDF + XML séparé
 - [x] Tests unit (totaux, génération) ; _E2E création facture reportés avec les autres E2E_

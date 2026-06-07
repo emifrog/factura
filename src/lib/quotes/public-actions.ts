@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logAudit } from "@/lib/audit/log";
 import type { AcceptQuoteResult } from "./schemas";
 
 const TOKEN_RE = /^[0-9a-f-]{36}$/i;
@@ -28,7 +29,7 @@ export async function acceptQuote(
   const supabase = createAdminClient();
   const { data: quote } = await supabase
     .from("quotes")
-    .select("id, status")
+    .select("id, status, profile_id")
     .eq("public_token", token)
     .maybeSingle();
   if (!quote) return { ok: false, error: "Devis introuvable." };
@@ -47,6 +48,14 @@ export async function acceptQuote(
     .eq("status", "sent");
   if (error) return { ok: false, error: "Échec de l'enregistrement." };
 
+  await logAudit(supabase, {
+    profileId: quote.profile_id,
+    entityType: "quote",
+    entityId: quote.id,
+    action: "accepted",
+    metadata: { by: name },
+  });
+
   revalidatePath(`/d/${token}`);
   return { ok: true, decision: "accepted" };
 }
@@ -59,7 +68,7 @@ export async function refuseQuote(formData: FormData) {
   const supabase = createAdminClient();
   const { data: quote } = await supabase
     .from("quotes")
-    .select("id, status")
+    .select("id, status, profile_id")
     .eq("public_token", token)
     .maybeSingle();
   if (!quote || quote.status !== "sent") return;
@@ -69,6 +78,13 @@ export async function refuseQuote(formData: FormData) {
     .update({ status: "refused" })
     .eq("id", quote.id)
     .eq("status", "sent");
+
+  await logAudit(supabase, {
+    profileId: quote.profile_id,
+    entityType: "quote",
+    entityId: quote.id,
+    action: "refused",
+  });
 
   revalidatePath(`/d/${token}`);
 }

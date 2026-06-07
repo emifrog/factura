@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { logAudit } from "@/lib/audit/log";
 import { computeInvoiceTotals, round2 } from "./totals";
 import { generateFacturX, type FacturXData } from "./factur-x";
 import {
@@ -80,6 +81,11 @@ export async function saveDraft(
       line_total: totals.lineTotal,
       tax_total: totals.taxTotal,
       grand_total: totals.grandTotal,
+      delivery_address_line1: input.delivery?.line1 ?? null,
+      delivery_address_line2: input.delivery?.line2 ?? null,
+      delivery_postal_code: input.delivery?.postalCode ?? null,
+      delivery_city: input.delivery?.city ?? null,
+      delivery_country: input.delivery?.country ?? null,
     })
     .eq("id", id)
     .eq("profile_id", user.id);
@@ -241,6 +247,8 @@ export async function issueInvoice(id: string): Promise<IssueResult> {
     issueDate,
     dueDate: invoice.due_date,
     currency: invoice.currency,
+    category: invoice.category,
+    vatOnDebits: invoice.vat_on_debits,
     seller: {
       name: company.legal_name,
       siren: company.siren,
@@ -251,9 +259,17 @@ export async function issueInvoice(id: string): Promise<IssueResult> {
       name: client.name,
       siren: client.siren,
       vatNumber: client.vat_number,
+      email: client.email,
       address: buyerAddr,
     },
     deliveryDate: issueDate,
+    deliveryAddress: {
+      line1: invoice.delivery_address_line1,
+      line2: invoice.delivery_address_line2,
+      postalCode: invoice.delivery_postal_code,
+      city: invoice.delivery_city,
+      country: invoice.delivery_country,
+    },
     lines: lines.map((l) => ({
       id: String(l.line_no),
       name: l.description,
@@ -322,6 +338,14 @@ export async function issueInvoice(id: string): Promise<IssueResult> {
     .eq("profile_id", user.id);
   if (updErr) return { ok: false, error: "Échec de la finalisation." };
 
+  await logAudit(supabase, {
+    profileId: user.id,
+    entityType: "invoice",
+    entityId: id,
+    action: "issued",
+    metadata: { number, grandTotal: totals.grandTotal, sha256 },
+  });
+
   revalidatePath(`/invoices/${id}`);
   revalidatePath("/invoices");
   return { ok: true };
@@ -369,6 +393,13 @@ export async function markInvoicePaid(formData: FormData) {
     .eq("id", id)
     .eq("profile_id", user.id)
     .in("status", ["issued", "sent", "overdue"]);
+
+  await logAudit(supabase, {
+    profileId: user.id,
+    entityType: "invoice",
+    entityId: id,
+    action: "paid",
+  });
 
   revalidatePath(`/invoices/${id}`);
   revalidatePath("/invoices");

@@ -48,8 +48,23 @@ export type InvoiceEditorProps = {
     dueDate: string | null;
     currency: string;
     vatOnDebits: boolean;
+    delivery: {
+      line1: string;
+      line2: string;
+      postalCode: string;
+      city: string;
+      country: string;
+    } | null;
     lines: EditorLine[];
   };
+};
+
+const emptyDelivery = {
+  line1: "",
+  line2: "",
+  postalCode: "",
+  city: "",
+  country: "FR",
 };
 
 const emptyLine: EditorLine = {
@@ -75,6 +90,10 @@ export function InvoiceEditor({
   const [category, setCategory] = useState<InvoiceCategory>(initial.category);
   const [dueDate, setDueDate] = useState(initial.dueDate ?? "");
   const [vatOnDebits, setVatOnDebits] = useState(initial.vatOnDebits);
+  const [deliveryDifferent, setDeliveryDifferent] = useState(
+    Boolean(initial.delivery),
+  );
+  const [delivery, setDelivery] = useState(initial.delivery ?? emptyDelivery);
   const [lines, setLines] = useState<EditorLine[]>(
     initial.lines.length ? initial.lines : [emptyLine],
   );
@@ -104,6 +123,9 @@ export function InvoiceEditor({
   const removeLine = (i: number) =>
     setLines((ls) => (ls.length > 1 ? ls.filter((_, j) => j !== i) : ls));
 
+  const setDeliveryField = (key: keyof typeof emptyDelivery, value: string) =>
+    setDelivery((d) => ({ ...d, [key]: value }));
+
   function buildPayload() {
     return {
       clientId: clientId || null,
@@ -111,6 +133,7 @@ export function InvoiceEditor({
       dueDate: dueDate || null,
       currency,
       vatOnDebits,
+      delivery: deliveryDifferent ? delivery : null,
       lines: lines.map((l) => ({
         description: l.description,
         quantity: Number(l.quantity) || 0,
@@ -187,6 +210,40 @@ export function InvoiceEditor({
           />
           Option TVA sur les débits
         </label>
+      </div>
+
+      {/* Adresse de livraison */}
+      <div className="flex flex-col gap-4">
+        <label className="flex items-center gap-3 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={deliveryDifferent}
+            onChange={(e) => setDeliveryDifferent(e.target.checked)}
+            className="size-4 rounded border-border-strong"
+          />
+          Adresse de livraison différente de la facturation
+        </label>
+        {deliveryDifferent && (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <Input
+                label="Adresse de livraison"
+                value={delivery.line1}
+                onChange={(e) => setDeliveryField("line1", e.target.value)}
+              />
+            </div>
+            <Input
+              label="Code postal"
+              value={delivery.postalCode}
+              onChange={(e) => setDeliveryField("postalCode", e.target.value)}
+            />
+            <Input
+              label="Ville"
+              value={delivery.city}
+              onChange={(e) => setDeliveryField("city", e.target.value)}
+            />
+          </div>
+        )}
       </div>
 
       {/* Lignes */}

@@ -79,6 +79,15 @@ export default async function EditInvoicePage({
               dueDate: invoice.due_date,
               currency: invoice.currency,
               vatOnDebits: invoice.vat_on_debits,
+              delivery: invoice.delivery_address_line1
+                ? {
+                    line1: invoice.delivery_address_line1 ?? "",
+                    line2: invoice.delivery_address_line2 ?? "",
+                    postalCode: invoice.delivery_postal_code ?? "",
+                    city: invoice.delivery_city ?? "",
+                    country: invoice.delivery_country ?? "FR",
+                  }
+                : null,
               lines: editorLines,
             }}
           />

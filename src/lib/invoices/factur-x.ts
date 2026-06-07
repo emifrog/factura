@@ -15,6 +15,7 @@ export type FacturXParty = {
   name: string;
   siren?: string | null;
   vatNumber?: string | null;
+  email?: string | null;
   address: {
     line1?: string | null;
     line2?: string | null;
@@ -35,14 +36,25 @@ export type FacturXLineData = {
   lineTotal: number;
 };
 
+export type DeliveryAddress = {
+  line1?: string | null;
+  line2?: string | null;
+  postalCode?: string | null;
+  city?: string | null;
+  country?: string | null;
+};
+
 export type FacturXData = {
   number: string;
   issueDate: string; // YYYY-MM-DD
   dueDate?: string | null;
   currency: string;
+  category: "goods" | "services" | "mixed";
+  vatOnDebits: boolean;
   seller: FacturXParty;
   buyer: FacturXParty;
   deliveryDate?: string | null;
+  deliveryAddress?: DeliveryAddress | null;
   lines: FacturXLineData[];
   totals: {
     lineTotal: number;
@@ -78,6 +90,64 @@ function loadAssets() {
 
 const INK = rgb(0.098, 0.11, 0.118);
 const MUTED = rgb(0.27, 0.275, 0.302);
+
+const CATEGORY_LABEL: Record<FacturXData["category"], string> = {
+  goods: "Livraison de biens",
+  services: "Prestation de services",
+  mixed: "Opération mixte (biens et services)",
+};
+
+function hasDeliveryAddress(a?: DeliveryAddress | null): a is DeliveryAddress {
+  return Boolean(a && (a.line1 || a.city || a.postalCode));
+}
+
+/** Mappe une partie vers l'input lib (SIREN en BT-30 + adresse électronique). */
+function mapParty(p: FacturXParty) {
+  // Schéma 0002 = SIREN (ISO 6523) ; EM = adresse électronique de type email.
+  const endpoint = p.email
+    ? { value: p.email, schemeID: "EM" }
+    : p.siren
+      ? { value: p.siren, schemeID: "0002" }
+      : undefined;
+  return {
+    name: p.name,
+    ...(p.siren ? { id: p.siren } : {}),
+    address: {
+      line1: p.address.line1 ?? "",
+      city: p.address.city ?? "",
+      postalCode: p.address.postalCode ?? "",
+      country: p.address.country,
+    },
+    ...(p.siren
+      ? { legalOrganization: { id: p.siren, schemeID: "0002" } }
+      : {}),
+    ...(endpoint ? { electronicAddress: endpoint } : {}),
+    ...(p.vatNumber
+      ? { taxRegistrations: [{ id: p.vatNumber, schemeId: "VA" as const }] }
+      : {}),
+  };
+}
+
+/** Mentions FR obligatoires (BG-1) sous forme de notes document. */
+function buildNotes(data: FacturXData) {
+  return [
+    { content: `Catégorie de l'opération : ${CATEGORY_LABEL[data.category]}` },
+    ...(data.vatOnDebits
+      ? [{ content: "TVA acquittée d'après les débits." }]
+      : []),
+    // Mentions légales françaises obligatoires (codes PMT / PMD / AAB).
+    {
+      subjectCode: "PMT",
+      content: "Indemnité forfaitaire pour frais de recouvrement : 40 €.",
+    },
+    {
+      subjectCode: "PMD",
+      content:
+        "Tout retard de paiement entraîne des pénalités au taux de 3 fois le taux d'intérêt légal.",
+    },
+    { subjectCode: "AAB", content: "Pas d'escompte pour paiement anticipé." },
+  ];
+}
 
 function money(n: number, currency: string) {
   return `${n.toFixed(2)} ${currency}`;
@@ -194,6 +264,17 @@ async function renderBasePdf(data: FacturXData): Promise<Uint8Array> {
     page.drawText(s, { x: 40, y, size: 8, font, color: MUTED });
     y -= 11;
   };
+  note(`Catégorie de l'opération : ${CATEGORY_LABEL[data.category]}`);
+  if (data.vatOnDebits) note("TVA acquittée d'après les débits.");
+  if (hasDeliveryAddress(data.deliveryAddress)) {
+    const a = data.deliveryAddress;
+    const cityLine = [a.postalCode, a.city].filter(Boolean).join(" ");
+    note(
+      `Adresse de livraison : ${[a.line1, cityLine, a.country]
+        .filter(Boolean)
+        .join(", ")}`,
+    );
+  }
   if (data.payment?.iban) note(`IBAN : ${data.payment.iban}`);
   note("Facture électronique conforme — format Factur-X (EN 16931).");
 
@@ -219,42 +300,27 @@ export async function generateFacturX(
         id: data.number,
         issueDate: data.issueDate,
         typeCode: DocumentTypeCode.COMMERCIAL_INVOICE,
+        // Mentions FR sans champ EN 16931 structuré → notes document (BG-1).
+        notes: buildNotes(data),
       },
-      seller: {
-        name: data.seller.name,
-        ...(data.seller.siren ? { id: data.seller.siren } : {}),
-        address: {
-          line1: data.seller.address.line1 ?? "",
-          city: data.seller.address.city ?? "",
-          postalCode: data.seller.address.postalCode ?? "",
-          country: data.seller.address.country,
-        },
-        ...(data.seller.vatNumber
+      seller: mapParty(data.seller),
+      buyer: mapParty(data.buyer),
+      delivery:
+        data.deliveryDate || hasDeliveryAddress(data.deliveryAddress)
           ? {
-              taxRegistrations: [
-                { id: data.seller.vatNumber, schemeId: "VA" as const },
-              ],
+              ...(data.deliveryDate ? { date: data.deliveryDate } : {}),
+              ...(hasDeliveryAddress(data.deliveryAddress)
+                ? {
+                    location: {
+                      line1: data.deliveryAddress.line1 ?? "",
+                      city: data.deliveryAddress.city ?? "",
+                      postalCode: data.deliveryAddress.postalCode ?? "",
+                      country: data.deliveryAddress.country ?? "FR",
+                    },
+                  }
+                : {}),
             }
-          : {}),
-      },
-      buyer: {
-        name: data.buyer.name,
-        ...(data.buyer.siren ? { id: data.buyer.siren } : {}),
-        address: {
-          line1: data.buyer.address.line1 ?? "",
-          city: data.buyer.address.city ?? "",
-          postalCode: data.buyer.address.postalCode ?? "",
-          country: data.buyer.address.country,
-        },
-        ...(data.buyer.vatNumber
-          ? {
-              taxRegistrations: [
-                { id: data.buyer.vatNumber, schemeId: "VA" as const },
-              ],
-            }
-          : {}),
-      },
-      delivery: data.deliveryDate ? { date: data.deliveryDate } : undefined,
+          : undefined,
       lines: data.lines.map((l) => ({
         id: l.id,
         name: l.name,

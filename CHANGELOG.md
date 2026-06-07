@@ -7,6 +7,18 @@ et le projet adhère au [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Conformité & qualité
+
+- **Mentions FR propagées dans le Factur-X** : catégorie d'opération, option TVA
+  sur les débits, et mentions légales obligatoires (frais de recouvrement PMT,
+  pénalités de retard PMD, escompte AAB) en notes document ; **SIREN vendeur en
+  BT-30** (`SpecifiedLegalOrganization`) et **adresses électroniques** (BT-34/49).
+  → Toutes les règles du Schematron français BR-FR sont désormais satisfaites.
+- **Adresse de livraison distincte** (mention obligatoire 2026) : colonnes
+  dédiées, toggle dans l'éditeur, mapping CII `ShipToTradeParty` (BG-13).
+- **Journal d'audit** `audit_logs` (append-only) branché sur les évènements clés :
+  émission, paiement, acceptation/refus de devis, suppression de compte.
+
 ### Ajouté — Phase 9 (export & RGPD)
 
 - **Export comptable CSV** des factures émises par année (pour le comptable annuel).

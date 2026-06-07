@@ -8,6 +8,14 @@ export const sampleInvoice: FacturXData = {
   issueDate: "2026-06-02",
   dueDate: "2026-07-02",
   currency: "EUR",
+  category: "services",
+  vatOnDebits: true,
+  deliveryAddress: {
+    line1: "2 avenue des Tilleuls",
+    postalCode: "69003",
+    city: "Lyon",
+    country: "FR",
+  },
   seller: {
     name: "Studio Xavier R.",
     siren: "123456789",
@@ -69,6 +77,15 @@ describe("generateFacturX", () => {
     expect(xml).toContain("urn:cen.eu:en16931:2017");
     expect(xml).toContain("FACT-2026-0001");
     expect(xml).toContain("6000");
+
+    // Propagation des mentions FR (reco #1) + adresse de livraison (reco #2).
+    // NB : l'apostrophe est encodée &apos; dans le XML.
+    expect(xml).toContain("Catégorie de l");
+    expect(xml).toContain("Prestation de services");
+    expect(xml).toContain("TVA acquittée");
+    expect(xml).toContain("ShipToTradeParty"); // BG-13 adresse de livraison
+    expect(xml).toContain("avenue des Tilleuls");
+    expect(xml).toContain("SpecifiedLegalOrganization"); // SIREN BT-30
 
     // Artefacts pour la validation de conformité (Mustang / CI).
     mkdirSync(".artifacts", { recursive: true });

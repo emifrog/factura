@@ -23,6 +23,28 @@ export const invoiceDraftSchema = z.object({
     .transform((v) => (v ? v : null)),
   currency: z.string().default("EUR"),
   vatOnDebits: z.boolean().default(false),
+  delivery: z
+    .object({
+      line1: z.string().trim().max(200).optional(),
+      line2: z.string().trim().max(200).optional(),
+      postalCode: z.string().trim().max(10).optional(),
+      city: z.string().trim().max(120).optional(),
+      country: z.string().trim().max(60).optional(),
+    })
+    .nullish()
+    .transform((d) => {
+      if (!d) return null;
+      const has = d.line1 || d.city || d.postalCode;
+      return has
+        ? {
+            line1: d.line1 || null,
+            line2: d.line2 || null,
+            postalCode: d.postalCode || null,
+            city: d.city || null,
+            country: d.country || "FR",
+          }
+        : null;
+    }),
   lines: z.array(invoiceLineInputSchema),
 });
 

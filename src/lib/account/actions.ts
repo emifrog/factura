@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { logAudit } from "@/lib/audit/log";
 
 /**
  * Demande de suppression de compte (RGPD) : soft-delete + déconnexion.
@@ -19,6 +20,12 @@ export async function requestAccountDeletion() {
     .from("profiles")
     .update({ deleted_at: new Date().toISOString() })
     .eq("id", user.id);
+
+  await logAudit(supabase, {
+    profileId: user.id,
+    entityType: "account",
+    action: "account_deleted",
+  });
 
   await supabase.auth.signOut();
   redirect("/compte-supprime");
